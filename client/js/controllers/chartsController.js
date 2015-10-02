@@ -3,7 +3,6 @@
  */
 
 
-
 app.controller('chartsController', ['$scope', '$http', '$resource', '$location',
     function($scope, $http, $resource, $location) {
 
@@ -115,5 +114,6 @@ app.controller('chartsController', ['$scope', '$http', '$resource', '$location',
 
 
     }
+
 
 ]);

@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 //define routes
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/client/views/googlecharts.html');
+    res.sendFile(__dirname + '/client/pages/home.html');
 
 });
 

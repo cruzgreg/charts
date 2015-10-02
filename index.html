@@ -9,13 +9,19 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
 
     <!-- SPELLS -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
     <script src="script.js"></script>
+
+    <!--<script type="text/javascript" src='/public/lib/angular/angular.js'></script>-->
+    <script type="text/javascript" src="/client/js/public/lib/Chart.js/Chart.js"></script>
+    <script type="text/javascript" src='/public/lib/angular-chart.js/angular-chart.js'></script>
+    <!--<script type="text/javascript" src='/client/js/application.js'></script>-->
+    <!--<script type="text/javascript" src='/client/js/controllers/chartsController.js'></script>-->
 </head>
 
 <!-- define angular controller -->
-<body ng-controller="mainController">
+<body ng-controller="mainController as chart">
 
 <nav class="navbar navbar-default">
     <div class="container">
@@ -44,6 +50,8 @@
 
     <p>View a tutorial on <a href="http://scotch.io/tutorials/javascript/animating-angularjs-apps-ngview">Animating Your Angular Single Page App</a></p>
 </footer>
+
+
 
 </body>
 
