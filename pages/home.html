@@ -1,41 +1,49 @@
+<div class="jumbotron text-center">
+    <h1>Greg's Page</h1>
 
-<div class="text-center">
-    <form data-ng-submit="chart.submitQuery()">
-        <div class="form-group">
-            <label for="profileId">Profile ID</label><br />
-            <input data-ng-model="chart.query.profileId" type="text" id="profileId" value="100204953"
-                   name="profileId" placeholder="" autocomplete="on"/>
-        </div>
+    <p>{{ chart.message }}</p>
 
-        <div class="form-group">
-            <label for="queryName">Query Name</label><br />
-            <input data-ng-model="chart.query.queryName" type="text" id="queryName" value="usersAndPageviewsOverTime"
-                   name="queryName" placeholder="" autocomplete="on"/>
-        </div>
 
-        <div class="form-group">
-            <label for="startDate">Start Date</label><br />
-            <input data-ng-model="chart.query.startDate" type="text" id="startDate" value="2015-08-01"
-                   name="startDate" placeholder="" autocomplete="on"/>
-        </div>
+    <div class="text-center">
+        <form data-ng-submit="chart.submitQuery()">
+            <div class="form-group">
+                <label for="profileId">Profile ID</label><br />
+                <input data-ng-model="chart.query.profileId" type="text" id="profileId" value="100204953"
+                       name="profileId" placeholder="" autocomplete="on"/>
+            </div>
 
-        <div class="form-group">
-            <label for="endDate">End Date</label><br/>
-            <input data-ng-model="chart.query.endDate" type="text" id="endDate" value="2015-08-15"
-                   name="endDate" placeholder="" autocomplete="on"/>
-        </div>
+            <div class="form-group">
+                <label for="queryName">Query Name</label><br />
+                <input data-ng-model="chart.query.queryName" type="text" id="queryName" value="usersAndPageviewsOverTime"
+                       name="queryName" placeholder="" autocomplete="on"/>
+            </div>
 
-        <br/>
-        <button type="submit" class="btn btn-large btn-primary">Submit</button>
-        <button type="reset" data-ng-click='chart.clearForm()' class="btn btn-large btn-primary">Clear</button>
+            <div class="form-group">
+                <label for="startDate">Start Date</label><br />
+                <input data-ng-model="chart.query.startDate" type="text" id="startDate" value="2015-08-01"
+                       name="startDate" placeholder="" autocomplete="on"/>
+            </div>
 
-    </form>
+            <div class="form-group">
+                <label for="endDate">End Date</label><br/>
+                <input data-ng-model="chart.query.endDate" type="text" id="endDate" value="2015-08-15"
+                       name="endDate" placeholder="" autocomplete="on"/>
+            </div>
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-primary">Submit</button>
+            <button type="reset" data-ng-click='chart.clearForm()' class="btn btn-large btn-primary">Clear</button>
+
+        </form>
+    </div>
+
+
+    <div>
+        <canvas id="line" class="chart chart-line" chart-data="data"
+                chart-labels="labels" chart-legend="true" chart-series="series"
+                chart-click="onClick" ng-show='chart.isActive'>
+        </canvas>
+    </div>
+
 </div>
 
-
-<div>
-    <canvas id="line" class="chart chart-line" chart-data="data"
-            chart-labels="labels" chart-legend="true" chart-series="series"
-            chart-click="onClick" ng-show='chart.isActive'>
-    </canvas>
-</div>

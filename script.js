@@ -1,11 +1,8 @@
-(function () {
-    'use strict';
-
 // create the module and name it scotchApp
 //var scotchApp = angular.module('scotchApp', ['$scope', 'ngRoute', 'Chart.js']);
 
 // create the module and name it scotchApp
-var scotchApp = angular.module('scotchApp', ['ngRoute', 'chart.js']);
+var scotchApp = angular.module('scotchApp', ['ngRoute', 'chart.js', 'ngResource']);
 
 // configure our routes
 scotchApp.config(function($routeProvider) {
@@ -30,14 +27,17 @@ scotchApp.config(function($routeProvider) {
         });
 });
 
+
+
 // create the controller and inject Angular's $scope
-scotchApp.controller('mainController', ['$scope', '$resource', function($scope, $resource) {
+scotchApp.controller('mainController', function($scope, $resource) {
     // create a message to display in our view
-    //$scope.message = 'Everyone come and see how good I look!';
 
     var vm = this;
 
-    var fbQuery = $resource('/api/firebase');
+    vm.message = 'Everyone come and see how good I look!';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase');
 
     vm.isActive = false;
     vm.query = {};
@@ -133,7 +133,7 @@ scotchApp.controller('mainController', ['$scope', '$resource', function($scope, 
         vm.isActive = true;
 
     };
-}]);
+});
 
 scotchApp.controller('aboutController', function($scope) {
     $scope.message = 'Look! I am an about page.';
@@ -142,5 +142,3 @@ scotchApp.controller('aboutController', function($scope) {
 scotchApp.controller('contactController', function($scope) {
     $scope.message = 'Contact us! JK. This is just a demo.';
 });
-
-})();
