@@ -5,42 +5,42 @@
 var firebase = require('firebase');
 var myFirebaseRefRoot = new firebase('https://boiling-heat-2495.firebaseio.com/');
 var express = require('express');
-var app = express();
+var cors = require('cors');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var path = require('path');
 var serverController = require('./server/js/controllers/serverController');
 
+//Create the application
+var app = express();
+
+//Add Middleware necessary for REST APIs
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+//app.use(methodOverride('X-HTTP-Method-Override'));
 
-// Add headers
-app.use(function (req, res, next) {
+app.use('/js', express.static(__dirname + '/client/js'));
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost');
+app.use(cors());
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+//CORS Support
+//app.use(function(req, res, next) {
+//    res.header('Access-Control-Allow-Origin', '*');
+//    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//    res.header('Access-Control-Allow-Headers', 'Content-Type');
+//    next();
+//});
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-});
 
 //define routes
-app.get('/', function(req, res){
+app.get('/', function(req, res, next){
     res.sendFile(__dirname + '/client/pages/home.html');
 
 });
 
-app.use('/js', express.static(__dirname + '/client/js'));
 
-app.post('/query', function(req, res){
+
+app.post('/query', function(req, res, next){
     console.log(req.body);
     //use the req inputs from above to call the
     res.end();
@@ -48,7 +48,8 @@ app.post('/query', function(req, res){
 
 app.listen(3000, function(){
     console.log('ready on port 3000');
+    //console.log(app);
 });
 
-app.post('http://localhost:3000/api/firebase', serverController.submitQuery);
+app.post('/api/firebase', serverController.submitQuery);
 

@@ -8,7 +8,7 @@ app.controller('chartsController', ['$scope', '$http', '$resource', '$location',
 
         var vm = this;
 
-        var fbQuery = $resource('/api/firebase');
+        var fbQuery = $resource('http://localhost:3000/api/firebase');
 
         vm.isActive = false;
         vm.query = {};
@@ -83,7 +83,6 @@ app.controller('chartsController', ['$scope', '$http', '$resource', '$location',
                 vm.parseData(innerArray);
             }
 
-
         };
 
         function _parseData (data) {
@@ -91,8 +90,6 @@ app.controller('chartsController', ['$scope', '$http', '$resource', '$location',
                 vm.datesData1.push(dataPoint[0]);
                 vm.datesData2.push(dataPoint[1]);
             }
-
-
 
         };
 
@@ -104,8 +101,6 @@ app.controller('chartsController', ['$scope', '$http', '$resource', '$location',
             vm.isActive = true;
 
         };
-
-
 
 
 
