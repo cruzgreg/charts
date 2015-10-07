@@ -5,7 +5,6 @@
 
 var firebase = require('firebase');
 var myFirebaseRefRoot = new firebase('https://boiling-heat-2495.firebaseio.com/');
-//var q = require('q');
 
 //var profileId1 = 100204953;
 //var query1 = 'usersAndPageviewsOverTime';

@@ -48,44 +48,61 @@ scotchApp.controller('mainController', function($scope, $resource) {
     vm.datesData1 = [];
     vm.datesData2 = [];
 
-    vm.chartObject = {};
-
     //Chart JS
-    vm.labels = [];
-    vm.series = ['Users','Pageviews'];
-    vm.data = [];
+    vm.chartData = {};
+    vm.chartData.labels = [];
+    vm.chartData.series = ['Users','Pageviews'];
+    vm.chartData.data = [];
+
+    //Watch alerts
+    //$scope.$watch(vm.chartData.labels);
+    //$scope.$watch(vm.chartData.data);
+
 
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
     vm.parseData = _parseData;
     vm.parseArray = _parseArray;
     vm.fbParse = _fbParse;
-    vm.createChart = _createChart;
-
 
 
     function _submitQuery(){
         var firebaseQuery = new fbQuery();
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
+
             vm.fbParse(result);
         });
 
-        vm.createChart();
 
     };
 
     function _clearForm (){
-        vm.query = {};
         vm.isActive = false;
+
+        vm.query = {};
+        //vm.query.profileId = '';
+        //vm.query.queryName = '';
+        //vm.query.startDate = '';
+        //vm.query.endDate = '';
+
+        vm.chartData.labels = [];
+        vm.chartData.series = ['Users','Pageviews'];
+        vm.chartData.data= [];
+
+        vm.datesData = [];
+        vm.datesData1 = [];
+        vm.datesData2 = [];
 
     };
 
     function _fbParse (input){
+        console.log(vm.query);
+
         var i;
         for(i in input){
             if(typeof(input[i]) ===  'object'){
-                vm.dates.push(i);
+                vm.chartData.labels.push(i);
 
                 var oneDayEncrypt = input[i];
                 var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
@@ -95,15 +112,10 @@ scotchApp.controller('mainController', function($scope, $resource) {
 
         };
 
-        vm.labels.push(vm.dates);
-
+        //console.log(vm.chartData.labels);
 
         vm.parseArray(vm.datesData);
 
-        vm.data.push(vm.datesData1);
-        vm.data.push(vm.datesData2);
-
-        vm.createChart();
 
     };
 
@@ -112,6 +124,12 @@ scotchApp.controller('mainController', function($scope, $resource) {
             vm.parseData(innerArray);
         }
 
+        vm.chartData.data.push(vm.datesData1);
+        vm.chartData.data.push(vm.datesData2);
+
+        //console.log(vm.chartData.data);
+
+        vm.isActive = true;
 
     };
 
@@ -121,18 +139,9 @@ scotchApp.controller('mainController', function($scope, $resource) {
             vm.datesData2.push(dataPoint[1]);
         }
 
-
-
     };
 
-    function _createChart(){
 
-        return vm.labels;
-        return vm.data;
-
-        vm.isActive = true;
-
-    };
 });
 
 scotchApp.controller('aboutController', function($scope) {
