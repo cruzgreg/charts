@@ -11,6 +11,8 @@ var methodOverride = require('method-override');
 var path = require('path');
 var serverController = require('./server/js/controllers/serverController');
 
+var liveServer = require("live-server");
+
 //Create the application
 var app = express();
 
