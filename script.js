@@ -54,10 +54,6 @@ scotchApp.controller('mainController', function($scope, $resource) {
     vm.chartData.series = ['Users','Pageviews'];
     vm.chartData.data = [];
 
-    //Watch alerts
-    //$scope.$watch(vm.chartData.labels);
-    //$scope.$watch(vm.chartData.data);
-
 
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
@@ -66,25 +62,10 @@ scotchApp.controller('mainController', function($scope, $resource) {
     vm.fbParse = _fbParse;
 
 
-    function _submitQuery(){
-        var firebaseQuery = new fbQuery();
-        firebaseQuery.query = vm.query;
-        firebaseQuery.$save(function(result){
-
-            vm.fbParse(result);
-        });
-
-
-    };
-
     function _clearForm (){
         vm.isActive = false;
 
         vm.query = {};
-        //vm.query.profileId = '';
-        //vm.query.queryName = '';
-        //vm.query.startDate = '';
-        //vm.query.endDate = '';
 
         vm.chartData.labels = [];
         vm.chartData.series = ['Users','Pageviews'];
@@ -95,6 +76,22 @@ scotchApp.controller('mainController', function($scope, $resource) {
         vm.datesData2 = [];
 
     };
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+
+            //vm.fbParse(result);
+            console.log(result);
+        });
+
+        console.log('Hitting submit button');
+
+    };
+
+
 
     function _fbParse (input){
         console.log(vm.query);

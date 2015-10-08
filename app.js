@@ -23,22 +23,11 @@ app.use('/js', express.static(__dirname + '/client/js'));
 
 app.use(cors());
 
-//CORS Support
-//app.use(function(req, res, next) {
-//    res.header('Access-Control-Allow-Origin', '*');
-//    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//    res.header('Access-Control-Allow-Headers', 'Content-Type');
-//    next();
-//});
-
 
 //define routes
 app.get('/', function(req, res, next){
     res.sendFile(__dirname + '/client/pages/home.html');
-
 });
-
-
 
 app.post('/query', function(req, res, next){
     console.log(req.body);
@@ -48,7 +37,6 @@ app.post('/query', function(req, res, next){
 
 app.listen(3000, function(){
     console.log('ready on port 3000');
-    //console.log(app);
 });
 
 app.post('/api/firebase', serverController.submitQuery);
