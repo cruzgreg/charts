@@ -45,9 +45,6 @@ module.exports.submitQuery = function(req, res){
 
     var myResData = [];
 
-    //console.log(query);
-    //console.log(queryDetails);
-
     runAll();
 
     function runAll() {
@@ -58,9 +55,6 @@ module.exports.submitQuery = function(req, res){
     };
 
     function runStepOne (){
-
-        console.info("#1 runStepOne Called");
-
         var deferred = q.defer();
 
         getOneQueryForDateRange(queryDetails.profileId, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate);
@@ -71,9 +65,6 @@ module.exports.submitQuery = function(req, res){
     };
 
     function runStepTwo (){
-
-        console.info("#2 runStepTwo Called");
-
         var deferred = q.defer();
 
         getOneQueryForDateRange(queryDetails.peerId1, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate);
@@ -84,8 +75,6 @@ module.exports.submitQuery = function(req, res){
     };
 
     function runStepThree (){
-
-        console.info("#3 runStepThree Called");
 
         var deferred = q.defer();
 
@@ -98,9 +87,6 @@ module.exports.submitQuery = function(req, res){
     };
 
     function sendRes(){
-
-        console.info("#4 sendRes Called");
-
         var deferred = q.defer();
 
         var obj = myResData.reduce(function(o, v, i) {
@@ -109,18 +95,11 @@ module.exports.submitQuery = function(req, res){
         },
             {});
 
-
-
         deferred.resolve( res.json(obj) );
-        deferred.resolve(
-            console.log('Printing my res object: '),
-            console.debug(obj)
-        );
 
         return deferred.promise;
 
-
-    }
+    };
 
     function getOneQueryForDateRange (id, queryName, startDate, endDate) {
         var deferred = q.defer();
@@ -130,24 +109,15 @@ module.exports.submitQuery = function(req, res){
 
         myFirebaseRef.orderByKey().startAt(startDate).endAt(endDate)
             .on("value", function(snapshot) {
-                console.log('ProfileID:'+id +' '+ JSON.stringify(snapshot.val()));
-
-                console.log(res.statusCode);
-
-                console.debug(myResData);
 
                 deferred.resolve( myResData.push( snapshot.val() ) );
-                deferred.resolve( console.debug(myResData) );
-
+                //deferred.resolve( console.debug(myResData) );
 
             });
 
         return deferred.promise;
 
-
     };
-
-
 
 
 };

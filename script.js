@@ -1,5 +1,3 @@
-// create the module and name it scotchApp
-//var scotchApp = angular.module('scotchApp', ['$scope', 'ngRoute', 'Chart.js']);
 
 // create the module and name it scotchApp
 var scotchApp = angular.module('scotchApp', ['ngRoute', 'chart.js', 'ngResource']);
@@ -41,6 +39,12 @@ scotchApp.controller('mainController', function($scope, $resource) {
 
     vm.isActive = false;
     vm.query = {};
+    vm.query.profileId = 19242162;
+    vm.query.peerId1 = 87849822;
+    vm.query.peerId2 = 100469241;
+    vm.query.queryName = 'usersAndPageviewsOverTime';
+    vm.query.startDate = '2015-08-01';
+    vm.query.endDate = '2015-08-05';
 
     vm.callbackData = [];
     vm.dates = [];
@@ -51,7 +55,7 @@ scotchApp.controller('mainController', function($scope, $resource) {
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [];
-    vm.chartData.series = ['Users','Pageviews'];
+    vm.chartData.series = ['Co','Peer1','Peer2'];
     vm.chartData.data = [];
 
 
@@ -68,7 +72,7 @@ scotchApp.controller('mainController', function($scope, $resource) {
         vm.query = {};
 
         vm.chartData.labels = [];
-        vm.chartData.series = ['Users','Pageviews'];
+        vm.chartData.series = [];
         vm.chartData.data= [];
 
         vm.datesData = [];
@@ -83,35 +87,85 @@ scotchApp.controller('mainController', function($scope, $resource) {
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
 
-            //vm.fbParse(result);
             console.log(result);
-        });
 
-        console.log('Hitting submit button');
+            vm.fbParse(result);
+            
+        })
 
     };
 
 
-
     function _fbParse (input){
-        console.log(vm.query);
 
         var i;
         for(i in input){
-            if(typeof(input[i]) ===  'object'){
-                vm.chartData.labels.push(i);
+            if( typeof( input[i] ) ===  'object' && i === "0"){
 
-                var oneDayEncrypt = input[i];
-                var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
-                vm.datesData.push(oneDay);
+                var tempArray = [];
 
-            };
+                console.log( input[i] );
 
-        };
+                var j;
+                var singleDataset = input[i];
+
+                for( j in singleDataset ){
+                        
+                    vm.chartData.labels.push( j );
+                                    
+                    var oneDayEncrypt = singleDataset[j] ;
+                    var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
+                    
+                    var k;
+
+                    for(k in oneDay){
+
+                        var data = oneDay[k] ;
+                        var dataPoint = data[Object.keys(data)[0]];
+                        
+                        tempArray.push(dataPoint);
+                            
+                    }
+
+                }
+                vm.chartData.data.push(tempArray);
+                
+            } 
+            else if( typeof( input[i] ) ===  'object' ){
+                var j;
+                var singleDataset = input[i];
+                var tempArray = [];
+
+                for( j in singleDataset ){
+                                                            
+                    var oneDayEncrypt = singleDataset[j] ;
+                    var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
+                    
+                    var k;
+
+                    for(k in oneDay){
+
+                        var data = oneDay[k] ;
+                        var dataPoint = data[Object.keys(data)[0]];
+                        tempArray.push(dataPoint);
+        
+                    }
+                
+                }
+
+                vm.chartData.data.push(tempArray);      
+
+            }
+
+        }
 
         //console.log(vm.chartData.labels);
 
-        vm.parseArray(vm.datesData);
+        //console.log(vm.datesData);
+
+        //vm.parseArray(vm.datesData);
+
+        vm.isActive = true;
 
 
     };
@@ -122,9 +176,9 @@ scotchApp.controller('mainController', function($scope, $resource) {
         }
 
         vm.chartData.data.push(vm.datesData1);
-        vm.chartData.data.push(vm.datesData2);
+        //vm.chartData.data.push(vm.datesData2);
 
-        //console.log(vm.chartData.data);
+        console.log(vm.chartData.data);
 
         vm.isActive = true;
 
@@ -133,13 +187,14 @@ scotchApp.controller('mainController', function($scope, $resource) {
     function _parseData (data) {
         for(var i = 0, dataPoint; dataPoint = data[i]; i++){
             vm.datesData1.push(dataPoint[0]);
-            vm.datesData2.push(dataPoint[1]);
+            //vm.datesData2.push(dataPoint[1]);
         }
 
     };
 
 
 });
+
 
 scotchApp.controller('aboutController', function($scope) {
     $scope.message = 'Look! I am an about page.';
