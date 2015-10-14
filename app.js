@@ -10,6 +10,9 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var path = require('path');
 var serverController = require('./server/js/controllers/serverController');
+var singleCo = require('./server/js/controllers/singleCo.server.controller');
+var coVsCompAvg = require('./server/js/controllers/coVsCompAvg.server.controller');
+var multiCo = require('./server/js/controllers/multiCo.server.controller');
 
 var liveServer = require("live-server");
 
@@ -42,4 +45,10 @@ app.listen(3000, function(){
 });
 
 app.post('/api/firebase', serverController.submitQuery);
+
+app.post('/api/firebase/singleCo', singleCo.submitQuery);
+
+app.post('/api/firebase/coVsCompAvg', coVsCompAvg.submitQuery);
+
+app.post('/api/firebase/multiCo', multiCo.submitQuery);
 

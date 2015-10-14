@@ -52,24 +52,17 @@ module.exports.submitQuery = function(req, res){
     };
 
     function runStepOne (){
-
-        console.info("#1 runStepOne Called");
-
         var deferred = q.defer();
 
         deferred.resolve(
             getOneQueryForDateRange(queryDetails.profileId, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate)
             );
 
-
         return deferred.promise;
 
     };
 
     function runStepTwo (){
-
-        console.info("#2 runStepTwo Called");
-
         var deferred = q.defer();
 
         deferred.resolve(
@@ -81,25 +74,17 @@ module.exports.submitQuery = function(req, res){
     };
 
     function runStepThree (){
-
-        console.info("#3 runStepThree Called");
-
         var deferred = q.defer();
 
         deferred.resolve(
             getOneQueryForDateRange(queryDetails.peerId2, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate)
             );
 
-
         return deferred.promise;
-
 
     };
 
     function sendRes(){
-
-        console.info("#4 sendRes Called");
-
         var deferred = q.defer();
 
         var obj = myResData.reduce(function(o, v, i) {
@@ -108,15 +93,9 @@ module.exports.submitQuery = function(req, res){
         },
             {});
 
-
         deferred.resolve( res.json(obj) );
-        // deferred.resolve(
-        //     console.log('Printing my res object: '),
-        //     console.debug(obj)
-        // );
 
         return deferred.promise;
-
 
     }
 
@@ -131,25 +110,11 @@ module.exports.submitQuery = function(req, res){
                 console.log('ProfileID:'+id +' '+ JSON.stringify(snapshot.val()));
                 
                 deferred.resolve( myResData.push( snapshot.val() ) );
-                
-
 
             });
 
         return deferred.promise;
 
-
     };
 
-
-
 };
-
-
-
-
-
-
-
-
-

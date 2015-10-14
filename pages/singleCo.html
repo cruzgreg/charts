@@ -1,0 +1,52 @@
+<div class="jumbotron text-center" ng-controller="singleCoController as sCtrlr">
+    <h1>Single Company Page</h1>
+
+
+    <p>{{sCtrlr.message}}</p>
+
+    <div class="container text-center" ng-hide='sCtrlr.isActive'>
+        <form data-ng-submit="sCtrlr.submitQuery()">
+            <div class="form-group">
+                <label for="profileId">Profile ID</label><br />
+                <input required data-ng-model="sCtrlr.query.profileId" type="text" id="profileId"
+                       name="profileId" placeholder="19242162" autocomplete="on"/>
+            </div>
+       
+            <div class="form-group">
+                <label for="queryName">Query Name</label><br />
+                <input required data-ng-model="sCtrlr.query.queryName" type="text" id="queryName"
+                       name="queryName" placeholder="usersAndPageviewsOverTime" autocomplete="on"/>
+            </div>
+
+            <div class="form-group">
+                <label for="startDate">Start Date</label><br />
+                <input required data-ng-model="sCtrlr.query.startDate" type="text" id="startDate"
+                       name="startDate" placeholder="2015-08-01" autocomplete="on"/>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End Date</label><br/>
+                <input required data-ng-model="sCtrlr.query.endDate" type="text" id="endDate"
+                       name="endDate" placeholder="2015-08-20" autocomplete="on"/>
+            </div>
+
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-primary">Submit</button>
+            <button type="reset" data-ng-click='sCtrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
+
+        </form>
+    </div>
+
+    <div ng-show='sCtrlr.isActive'>
+        <button type="reset" data-ng-click='sCtrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
+        <br/>
+
+
+        <canvas id="line" class="chart chart-line" chart-data="sCtrlr.chartData.data"
+                chart-labels="sCtrlr.chartData.labels" chart-legend="false" chart-series="sCtrlr.chartData.series"
+                chart-click="onClick" >
+        </canvas>
+    </div>
+
+</div>

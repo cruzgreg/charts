@@ -1,27 +1,27 @@
-<div class="jumbotron text-center" ng-controller="mainController as ctrlr">
-    <h1>One Company vs Peer Avg</h1>
+<div class="jumbotron text-center" ng-controller="multiCompController as mCtrlr">
+    <h1>Multi Company Page</h1>
 
 
-    <p>{{ctrlr.message}}</p>
+    <p>{{mCtrlr.message}}</p>
 
-    <div class="container text-center" ng-hide='ctrlr.isActive'>
-        <form data-ng-submit="ctrlr.submitQuery()">
+    <div class="container text-center" ng-hide='mCtrlr.isActive'>
+        <form data-ng-submit="mCtrlr.submitQuery()">
             <row>
                 <div class="form-group">
                     <label for="profileId">Profile ID</label><br />
-                    <input required data-ng-model="ctrlr.query.profileId" type="text" id="profileId"
+                    <input required data-ng-model="mCtrlr.query.profileId" type="text" id="profileId"
                            name="profileId" placeholder="19242162" autocomplete="on"/>
                 </div>
 
                 <div class="form-group">
                     <label for="peerId1">Peer ID 1</label><br />
-                    <input required data-ng-model="ctrlr.query.peerId1" type="text" id="peerId1"
+                    <input required data-ng-model="mCtrlr.query.peerId1" type="text" id="peerId1"
                            name="peerId1" placeholder="87849822" autocomplete="on"/>
                 </div>
 
                 <div class="form-group">
                     <label for="peerId2">Peer ID 2</label><br />
-                    <input required data-ng-model="ctrlr.query.peerId2" type="text" id="peerId2"
+                    <input required data-ng-model="mCtrlr.query.peerId2" type="text" id="peerId2"
                            name="peerId2" placeholder="100469241" autocomplete="on"/>
                 </div>
             </row>
@@ -29,19 +29,19 @@
             <row>
                 <div class="form-group">
                     <label for="queryName">Query Name</label><br />
-                    <input required data-ng-model="ctrlr.query.queryName" type="text" id="queryName"
+                    <input required data-ng-model="mCtrlr.query.queryName" type="text" id="queryName"
                            name="queryName" placeholder="usersAndPageviewsOverTime" autocomplete="on"/>
                 </div>
 
                 <div class="form-group">
                     <label for="startDate">Start Date</label><br />
-                    <input required data-ng-model="ctrlr.query.startDate" type="text" id="startDate"
+                    <input required data-ng-model="mCtrlr.query.startDate" type="text" id="startDate"
                            name="startDate" placeholder="2015-08-01" autocomplete="on"/>
                 </div>
 
                 <div class="form-group">
                     <label for="endDate">End Date</label><br/>
-                    <input required data-ng-model="ctrlr.query.endDate" type="text" id="endDate"
+                    <input required data-ng-model="mCtrlr.query.endDate" type="text" id="endDate"
                            name="endDate" placeholder="2015-08-20" autocomplete="on"/>
                 </div>
             </row>
@@ -49,18 +49,18 @@
 
             <br/>
             <button type="submit" class="btn btn-large btn-primary">Submit</button>
-            <button type="reset" data-ng-click='ctrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
+            <button type="reset" data-ng-click='mCtrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
 
         </form>
     </div>
 
-    <div ng-show='ctrlr.isActive'>
-        <button type="reset" data-ng-click='ctrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
+    <div ng-show='mCtrlr.isActive'>
+        <button type="reset" data-ng-click='mCtrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
         <br/>
 
 
-        <canvas id="line" class="chart chart-line" chart-data="ctrlr.chartData.data"
-                chart-labels="ctrlr.chartData.labels" chart-legend="false" chart-series="ctrlr.chartData.series"
+        <canvas id="line" class="chart chart-line" chart-data="mCtrlr.chartData.data"
+                chart-labels="mCtrlr.chartData.labels" chart-legend="false" chart-series="mCtrlr.chartData.series"
                 chart-click="onClick" >
         </canvas>
     </div>

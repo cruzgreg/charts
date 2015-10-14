@@ -1,41 +1,38 @@
 
 // create the module and name it scotchApp
-var scotchApp = angular.module('scotchApp', ['ngRoute', 'chart.js', 'ngResource']);
+var myApp = angular.module('myApp', ['ngRoute', 'chart.js', 'ngResource']);
 
 // configure our routes
-scotchApp.config(function($routeProvider) {
+myApp.config(function($routeProvider) {
     $routeProvider
 
     // route for the home page
-        .when('/', {
-            templateUrl : 'pages/home.html',
-            controller  : 'mainController'
-        })
+    .when('/', {
+        templateUrl : 'pages/home.html',
+        controller  : 'mainController'
+    })
 
-        // route for the about page
-        .when('/about', {
-            templateUrl : 'pages/about.html',
-            controller  : 'aboutController'
-        })
+    // route for the about page
+    .when('/multiComp', {
+        templateUrl : 'pages/multi.html',
+        controller  : 'multiCompController'
+    })
 
-        // route for the contact page
-        .when('/contact', {
-            templateUrl : 'pages/contact.html',
-            controller  : 'contactController'
-        });
+    // route for the contact page
+    .when('/singleCo', {
+        templateUrl : 'pages/singleCo.html',
+        controller  : 'singleCoController'
+    });
 });
 
 
 
-// create the controller and inject Angular's $scope
-scotchApp.controller('mainController', function($scope, $resource) {
-    // create a message to display in our view
-
+myApp.controller('mainController', function($scope, $resource) {
     var vm = this;
 
-    vm.message = 'Everyone come and see how good I look!';
+    vm.message = 'Compare one company vs the average of two peers';
 
-    var fbQuery = $resource('http://localhost:3000/api/firebase');
+    var fbQuery = $resource('http://localhost:3000/api/firebase/coVsCompAvg');
 
     vm.isActive = false;
     vm.query = {};
@@ -55,17 +52,14 @@ scotchApp.controller('mainController', function($scope, $resource) {
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [];
-    //vm.chartData.series = ['Co','Peer 1', 'Peer 2'];
     vm.chartData.series = ['Co','Peer Avg'];
     vm.chartData.data = [];
 
 
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
-    vm.parseData = _parseData;
-    vm.parseArray = _parseArray;
-    vm.fbParse = _fbParse;
     vm.takeAvg = _takeAvg;
+    vm.fbParse = _fbParse;
 
 
     function _clearForm (){
@@ -89,16 +83,11 @@ scotchApp.controller('mainController', function($scope, $resource) {
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
 
-            console.log(result);
-
             vm.fbParse(result);
             
         })
 
-
-
     };
-
 
     function _fbParse (input){
 
@@ -107,8 +96,6 @@ scotchApp.controller('mainController', function($scope, $resource) {
         for(i in input){
             if( typeof( input[i] ) ===  'object' && i === "0"){
                 var tempArray = [];
-
-                console.log( input[i] );
 
                 var j;
                 var singleDataset = input[i];
@@ -157,13 +144,10 @@ scotchApp.controller('mainController', function($scope, $resource) {
 
             }
 
-
         }
 
         vm.takeAvg(avgArray);
        
-
-
     };
 
     function _takeAvg (array) {
@@ -184,15 +168,215 @@ scotchApp.controller('mainController', function($scope, $resource) {
 
         vm.chartData.data.push(meanArray);
 
-
         vm.isActive = true;
-        console.log(vm.chartData.data);
-
-    
 
     }
+});
+
+myApp.controller('multiCompController', function($scope, $resource) {
+    var vm = this;
+
+    vm.message = 'Compare one company vs two peers';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase/multiCo');
+
+    vm.isActive = false;
+    vm.query = {};
+    vm.query.profileId = 19242162;
+    vm.query.peerId1 = 87849822;
+    vm.query.peerId2 = 100469241;
+    vm.query.queryName = 'usersAndPageviewsOverTime';
+    vm.query.startDate = '2015-08-01';
+    vm.query.endDate = '2015-08-31';
+
+    vm.callbackData = [];
+    vm.dates = [];
+    vm.datesData = [];
+    vm.datesData1 = [];
+    vm.datesData2 = [];
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.labels = [];
+    vm.chartData.series = ['Co','Peer 1','Peer 2'];
+    vm.chartData.data = [];
 
 
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+    vm.fbParse = _fbParse;
+
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        vm.query = {};
+
+        vm.chartData.labels = [];
+        vm.chartData.series = [];
+        vm.chartData.data= [];
+
+        vm.datesData = [];
+        vm.datesData1 = [];
+        vm.datesData2 = [];
+
+    };
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+
+            vm.fbParse(result);
+            
+        })
+
+    };
+
+
+    function _fbParse (input){
+        var i;
+        for(i in input){
+            if( typeof( input[i] ) ===  'object' && i === "0"){
+
+                var tempArray = [];
+
+                var j;
+                var singleDataset = input[i];
+
+                for( j in singleDataset ){
+                        
+                    vm.chartData.labels.push( j );
+                                    
+                    var oneDayEncrypt = singleDataset[j] ;
+                    var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
+                    
+                    var k;
+
+                    for(k in oneDay){
+
+                        var data = oneDay[k] ;
+                        var dataPoint = data[Object.keys(data)[0]];
+                        
+                        tempArray.push(dataPoint);
+                            
+                    }
+
+                }
+                vm.chartData.data.push(tempArray);
+                
+            } 
+            else if( typeof( input[i] ) ===  'object' ){
+                var j;
+                var singleDataset = input[i];
+                var tempArray = [];
+
+                for( j in singleDataset ){
+                                                            
+                    var oneDayEncrypt = singleDataset[j] ;
+                    var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
+                    
+                    var k;
+
+                    for(k in oneDay){
+
+                        var data = oneDay[k] ;
+                        var dataPoint = data[Object.keys(data)[0]];
+                        tempArray.push(dataPoint);
+        
+                    }
+                
+                }
+
+                vm.chartData.data.push(tempArray);      
+
+            }
+
+        }
+
+        vm.isActive = true;
+
+    };
+});
+
+myApp.controller('singleCoController', function($scope, $resource) {
+    var vm = this;
+
+    vm.message = 'Compare users and pageviews for one company';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase/singleCo');
+
+    vm.isActive = false;
+    vm.query = {};
+    vm.query.profileId = 19242162;
+    vm.query.queryName = 'usersAndPageviewsOverTime';
+    vm.query.startDate = '2015-08-01';
+    vm.query.endDate = '2015-08-31';
+
+    vm.callbackData = [];
+    vm.dates = [];
+    vm.datesData = [];
+    vm.datesData1 = [];
+    vm.datesData2 = [];
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.labels = [];
+    vm.chartData.series = ['Users','Pageviews'];
+    vm.chartData.data = [];
+
+    //Register functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+    vm.parseData = _parseData;
+    vm.parseArray = _parseArray;
+    vm.fbParse = _fbParse;
+
+
+    function _submitQuery(){
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+
+            vm.fbParse(result);
+        });
+
+
+    };
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        vm.query = {};
+
+        vm.chartData.labels = [];
+        vm.chartData.series = ['Users','Pageviews'];
+        vm.chartData.data= [];
+
+        vm.datesData = [];
+        vm.datesData1 = [];
+        vm.datesData2 = [];
+
+    };
+
+    function _fbParse (input){
+        var i;
+        for(i in input){
+            if(typeof(input[i]) ===  'object'){
+                vm.chartData.labels.push(i);
+
+                var oneDayEncrypt = input[i];
+                var oneDay = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
+                vm.datesData.push(oneDay);
+
+            };
+
+        };
+
+        vm.parseArray(vm.datesData);
+
+    };
 
     function _parseArray (array){
         for (var i = 0, innerArray; innerArray = array[i]; i++) {
@@ -200,9 +384,7 @@ scotchApp.controller('mainController', function($scope, $resource) {
         }
 
         vm.chartData.data.push(vm.datesData1);
-        //vm.chartData.data.push(vm.datesData2);
-
-        console.log(vm.chartData.data);
+        vm.chartData.data.push(vm.datesData2);
 
         vm.isActive = true;
 
@@ -211,19 +393,8 @@ scotchApp.controller('mainController', function($scope, $resource) {
     function _parseData (data) {
         for(var i = 0, dataPoint; dataPoint = data[i]; i++){
             vm.datesData1.push(dataPoint[0]);
-            //vm.datesData2.push(dataPoint[1]);
+            vm.datesData2.push(dataPoint[1]);
         }
 
     };
-
-
-});
-
-
-scotchApp.controller('aboutController', function($scope) {
-    $scope.message = 'Look! I am an about page.';
-});
-
-scotchApp.controller('contactController', function($scope) {
-    $scope.message = 'Contact us! JK. This is just a demo.';
 });
