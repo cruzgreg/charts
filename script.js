@@ -43,8 +43,8 @@ scotchApp.controller('mainController', function($scope, $resource) {
     vm.query.peerId1 = 87849822;
     vm.query.peerId2 = 100469241;
     vm.query.queryName = 'usersAndPageviewsOverTime';
-    vm.query.startDate = '2015-08-01';
-    vm.query.endDate = '2015-08-05';
+    vm.query.startDate = '2015-07-01';
+    vm.query.endDate = '2015-08-30';
 
     vm.callbackData = [];
     vm.dates = [];
@@ -55,7 +55,8 @@ scotchApp.controller('mainController', function($scope, $resource) {
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [];
-    vm.chartData.series = ['Co','Peer1','Peer2'];
+    //vm.chartData.series = ['Co','Peer 1', 'Peer 2'];
+    vm.chartData.series = ['Co','Peer Avg'];
     vm.chartData.data = [];
 
 
@@ -64,6 +65,7 @@ scotchApp.controller('mainController', function($scope, $resource) {
     vm.parseData = _parseData;
     vm.parseArray = _parseArray;
     vm.fbParse = _fbParse;
+    vm.takeAvg = _takeAvg;
 
 
     function _clearForm (){
@@ -89,19 +91,21 @@ scotchApp.controller('mainController', function($scope, $resource) {
 
             console.log(result);
 
-            vm.fbParse(result);
+            //vm.fbParse(result);
             
         })
+
+
 
     };
 
 
     function _fbParse (input){
 
+        var avgArray = [];
         var i;
         for(i in input){
             if( typeof( input[i] ) ===  'object' && i === "0"){
-
                 var tempArray = [];
 
                 console.log( input[i] );
@@ -109,8 +113,7 @@ scotchApp.controller('mainController', function($scope, $resource) {
                 var j;
                 var singleDataset = input[i];
 
-                for( j in singleDataset ){
-                        
+                for( j in singleDataset ){  
                     vm.chartData.labels.push( j );
                                     
                     var oneDayEncrypt = singleDataset[j] ;
@@ -119,10 +122,8 @@ scotchApp.controller('mainController', function($scope, $resource) {
                     var k;
 
                     for(k in oneDay){
-
                         var data = oneDay[k] ;
-                        var dataPoint = data[Object.keys(data)[0]];
-                        
+                        var dataPoint = Number(data[Object.keys(data)[0]]);
                         tempArray.push(dataPoint);
                             
                     }
@@ -132,9 +133,10 @@ scotchApp.controller('mainController', function($scope, $resource) {
                 
             } 
             else if( typeof( input[i] ) ===  'object' ){
+                
+                var tempArray = [];
                 var j;
                 var singleDataset = input[i];
-                var tempArray = [];
 
                 for( j in singleDataset ){
                                                             
@@ -144,7 +146,6 @@ scotchApp.controller('mainController', function($scope, $resource) {
                     var k;
 
                     for(k in oneDay){
-
                         var data = oneDay[k] ;
                         var dataPoint = data[Object.keys(data)[0]];
                         tempArray.push(dataPoint);
@@ -152,23 +153,46 @@ scotchApp.controller('mainController', function($scope, $resource) {
                     }
                 
                 }
-
-                vm.chartData.data.push(tempArray);      
+                avgArray.push(tempArray);      
 
             }
 
+
         }
 
-        //console.log(vm.chartData.labels);
-
-        //console.log(vm.datesData);
-
-        //vm.parseArray(vm.datesData);
-
-        vm.isActive = true;
+        vm.takeAvg(avgArray);
+       
 
 
     };
+
+    function _takeAvg (array) {
+        var meanArray = [];
+
+        var cols = array[0].length;
+        var rows = array.length;
+
+        for (var col = 0; col < cols ; col++) {
+
+            sum = 0;
+            for (var row = 0; row < rows ; row++){
+                sum += Number(array[row][col]);
+            }
+            meanArray.push(sum/rows);
+
+        }
+
+        vm.chartData.data.push(meanArray);
+
+
+        vm.isActive = true;
+        console.log(vm.chartData.data);
+
+    
+
+    }
+
+
 
     function _parseArray (array){
         for (var i = 0, innerArray; innerArray = array[i]; i++) {

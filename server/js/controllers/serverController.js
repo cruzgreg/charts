@@ -97,6 +97,11 @@ module.exports.submitQuery = function(req, res){
 
         deferred.resolve( res.json(obj) );
 
+        deferred.resolve(
++            console.log('Printing my res object: '),
++            console.debug(obj)
++        );
+
         return deferred.promise;
 
     };
@@ -110,12 +115,14 @@ module.exports.submitQuery = function(req, res){
         myFirebaseRef.orderByKey().startAt(startDate).endAt(endDate)
             .on("value", function(snapshot) {
 
+                //myResData.push( snapshot.val() );
+                console.log('ProfileID:'+id +' '+ JSON.stringify(snapshot.val()));
                 deferred.resolve( myResData.push( snapshot.val() ) );
                 //deferred.resolve( console.debug(myResData) );
 
             });
 
-        return deferred.promise;
+        //return deferred.promise;
 
     };
 
