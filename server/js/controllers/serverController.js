@@ -55,20 +55,29 @@ module.exports.submitQuery = function(req, res){
     };
 
     function runStepOne (){
+
+        console.info("#1 runStepOne Called");
+
         var deferred = q.defer();
 
-        getOneQueryForDateRange(queryDetails.profileId, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate);
-        deferred.resolve(getOneQueryForDateRange);
+        deferred.resolve(
+            getOneQueryForDateRange(queryDetails.profileId, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate)
+            );
+
 
         return deferred.promise;
 
     };
 
     function runStepTwo (){
+
+        console.info("#2 runStepTwo Called");
+
         var deferred = q.defer();
 
-        getOneQueryForDateRange(queryDetails.peerId1, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate);
-        deferred.resolve(getOneQueryForDateRange);
+        deferred.resolve(
+            getOneQueryForDateRange(queryDetails.peerId1, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate)
+            );
 
         return deferred.promise;
 
@@ -76,10 +85,14 @@ module.exports.submitQuery = function(req, res){
 
     function runStepThree (){
 
+        console.info("#3 runStepThree Called");
+
         var deferred = q.defer();
 
-        getOneQueryForDateRange(queryDetails.peerId2, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate);
-        deferred.resolve(getOneQueryForDateRange);
+        deferred.resolve(
+            getOneQueryForDateRange(queryDetails.peerId2, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate)
+            );
+
 
         return deferred.promise;
 
@@ -87,6 +100,9 @@ module.exports.submitQuery = function(req, res){
     };
 
     function sendRes(){
+
+        console.info("#4 sendRes Called");
+
         var deferred = q.defer();
 
         var obj = myResData.reduce(function(o, v, i) {
@@ -95,16 +111,17 @@ module.exports.submitQuery = function(req, res){
         },
             {});
 
-        deferred.resolve( res.json(obj) );
 
-        deferred.resolve(
-+            console.log('Printing my res object: '),
-+            console.debug(obj)
-+        );
+        deferred.resolve( res.json(obj) );
+        // deferred.resolve(
+        //     console.log('Printing my res object: '),
+        //     console.debug(obj)
+        // );
 
         return deferred.promise;
 
-    };
+
+    }
 
     function getOneQueryForDateRange (id, queryName, startDate, endDate) {
         var deferred = q.defer();
@@ -114,20 +131,24 @@ module.exports.submitQuery = function(req, res){
 
         myFirebaseRef.orderByKey().startAt(startDate).endAt(endDate)
             .on("value", function(snapshot) {
-
-                //myResData.push( snapshot.val() );
                 console.log('ProfileID:'+id +' '+ JSON.stringify(snapshot.val()));
+                
                 deferred.resolve( myResData.push( snapshot.val() ) );
-                //deferred.resolve( console.debug(myResData) );
+                
+
 
             });
 
-        //return deferred.promise;
+        return deferred.promise;
+
 
     };
 
 
+
 };
+
+
 
 
 

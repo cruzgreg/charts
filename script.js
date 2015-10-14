@@ -43,8 +43,8 @@ scotchApp.controller('mainController', function($scope, $resource) {
     vm.query.peerId1 = 87849822;
     vm.query.peerId2 = 100469241;
     vm.query.queryName = 'usersAndPageviewsOverTime';
-    vm.query.startDate = '2015-07-01';
-    vm.query.endDate = '2015-08-30';
+    vm.query.startDate = '2015-08-01';
+    vm.query.endDate = '2015-08-31';
 
     vm.callbackData = [];
     vm.dates = [];
@@ -91,7 +91,7 @@ scotchApp.controller('mainController', function($scope, $resource) {
 
             console.log(result);
 
-            //vm.fbParse(result);
+            vm.fbParse(result);
             
         })
 
