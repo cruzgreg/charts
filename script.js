@@ -6,22 +6,34 @@ var myApp = angular.module('myApp', ['ngRoute', 'chart.js', 'ngResource']);
 myApp.config(function($routeProvider) {
     $routeProvider
 
-    // route for the home page
+    // route 
     .when('/', {
         templateUrl : 'pages/home.html',
         controller  : 'mainController'
     })
 
-    // route for the about page
+    // route 
     .when('/multiComp', {
         templateUrl : 'pages/multi.html',
         controller  : 'multiCompController'
     })
 
-    // route for the contact page
+    // route 
     .when('/singleCo', {
         templateUrl : 'pages/singleCo.html',
         controller  : 'singleCoController'
+    })
+
+    // route
+    .when('/newVsReturning', {
+        templateUrl : 'pages/newVsReturning.html',
+        controller  : 'newVsReturnController'
+    })
+
+    // route 
+    .when('/allQueries', {
+        templateUrl : 'pages/allQueries.html',
+        controller  : 'allQueriesController'
     });
 });
 
@@ -38,7 +50,7 @@ myApp.controller('mainController', function($scope, $resource) {
     vm.query = {};
     vm.query.profileId = 19242162;
     vm.query.peerId1 = 87849822;
-    vm.query.peerId2 = 100469241;
+    vm.query.peerId2 = 98099462;
     vm.query.queryName = 'usersAndPageviewsOverTime';
     vm.query.startDate = '2015-08-01';
     vm.query.endDate = '2015-08-31';
@@ -52,7 +64,7 @@ myApp.controller('mainController', function($scope, $resource) {
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [];
-    vm.chartData.series = ['Co','Peer Avg'];
+    vm.chartData.series = ["Zoe Report","Fashion Peers' Avg"];
     vm.chartData.data = [];
 
 
@@ -184,7 +196,7 @@ myApp.controller('multiCompController', function($scope, $resource) {
     vm.query = {};
     vm.query.profileId = 19242162;
     vm.query.peerId1 = 87849822;
-    vm.query.peerId2 = 100469241;
+    vm.query.peerId2 = 98099462;
     vm.query.queryName = 'usersAndPageviewsOverTime';
     vm.query.startDate = '2015-08-01';
     vm.query.endDate = '2015-08-31';
@@ -198,7 +210,7 @@ myApp.controller('multiCompController', function($scope, $resource) {
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [];
-    vm.chartData.series = ['Co','Peer 1','Peer 2'];
+    vm.chartData.series = ['Zoe Report','BeautyCon','Love Goodly'];
     vm.chartData.data = [];
 
 
@@ -397,4 +409,171 @@ myApp.controller('singleCoController', function($scope, $resource) {
         }
 
     };
+});
+
+myApp.controller('newVsReturnController', function($scope, $resource) {
+    var vm = this;
+
+    vm.message = 'Compare new vs returning sessions for a company';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase/newVsReturning');
+
+    vm.isActive = false;
+    vm.query = {};
+    vm.query.profileId = 19242162;
+    vm.query.queryName = 'newVsReturningSessions';
+    vm.query.startDate = '2015-08-01';
+    vm.query.endDate = '2015-08-31';
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.labels = ['New Sessions', 'Returning Sessions'];
+    vm.chartData.data = [];
+
+    //Functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+    vm.sumNewUsers = _sumNewUsers;
+    vm.sumReturnUsers = _sumReturnUsers;
+    vm.fbParse = _fbParse;
+
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        vm.query = {};
+
+        vm.chartData.labels = [];
+        vm.chartData.series = [];
+        vm.chartData.data= [];
+
+    };
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+            vm.fbParse(result);
+            
+        })
+
+    };
+
+    function _fbParse (input){
+
+        var allNew = [];
+        var allReturns = [];
+        var i;
+        for(i in input){
+            if( typeof( input[i] ) ===  'object' ){
+                
+                var j;
+                var singleDataset = input[i];
+
+                for( j in singleDataset ){
+                    var oneDayEncrypt = singleDataset[j] ;
+                    var newUser = oneDayEncrypt[Object.keys(oneDayEncrypt)[0]];
+                    var returnUser = oneDayEncrypt[Object.keys(oneDayEncrypt)[1]];
+                    
+                    allNew.push(Number(newUser[1]));
+                    allReturns.push(Number(returnUser[1]));
+                
+                }
+                
+            }
+
+        }
+        
+        vm.sumNewUsers(allNew);
+        vm.sumReturnUsers(allReturns);
+    };
+
+    function _sumNewUsers (array) {
+        var sum = 0;
+
+        for (var i = 0; i < array.length; i++) {
+            sum += array[i];
+
+        }
+
+        vm.chartData.data.push(sum);
+    }
+
+    function _sumReturnUsers (array) {
+        var sum = 0;
+
+        for (var i = 0; i < array.length; i++) {
+            sum += array[i];
+
+        }
+
+        vm.chartData.data.push(sum);
+        vm.isActive = true;
+    }
+
+
+
+});
+
+myApp.controller('allQueriesController', function($scope, $resource) {
+    var vm = this;
+
+    vm.message = 'All data currently being aggregated';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase/allQueries');
+
+    vm.isActive = false;
+    vm.query = {};
+    vm.query.profileId = 19242162;
+    vm.query.date = '2015-08-01';
+
+    vm.listData = [];
+
+    //Functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+    vm.showList = _showList;
+
+
+    function _clearForm (){
+        vm.isActive = false;
+        //vm.query = {};
+    };
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+            console.log(result);
+            vm.showList(result);
+
+        })
+    };
+
+    function _showList(rawData){
+        var i;
+        for(i in rawData){
+            vm.listData.push(i);
+
+            if( typeof( rawData[i] ) ===  'object' ){
+                var j;
+                var singleDataset = rawData[i];
+
+                for( j in singleDataset ){
+                    var oneDayEncrypt = singleDataset[j] ;
+
+                    for(var k = 0, point; point = oneDayEncrypt[k]; k++) {
+                        vm.listData.push(point);
+                    }
+                }
+            }
+        }
+        vm.isActive = true;
+
+    };
+
+
+
 });

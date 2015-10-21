@@ -17,20 +17,17 @@ module.exports.submitQuery = function(req, res){
     var queryDetails = query['query'];
 
 
-    getOneQueryForDateRange(queryDetails.profileId, queryDetails.queryName, queryDetails.startDate, queryDetails.endDate);
+    getAllQueryForDate(queryDetails.profileId, queryDetails.date);
 
-    function getOneQueryForDateRange (id, queryName, startDate, endDate) {
+    function getAllQueryForDate(id, date) {
         var myFirebaseRef = myFirebaseRefRoot
-            .child('profileId/ga:' + id + '/byQuery/'+ queryName);
-        
-            myFirebaseRef.orderByKey().startAt(startDate).endAt(endDate)
-                .on("value", function(snapshot) {
-                    console.log('ProfileID:'+id +' '+ JSON.stringify(snapshot.val()));
+            .child('profileId/ga:' + id + '/byDate/' + date);
 
-                    res.json(snapshot.val());
-                });
-        
+        myFirebaseRef.on("value", function(snapshot) {
+            console.log(JSON.stringify(snapshot.val()));
 
-    };
+            res.json(snapshot.val());
+        });
+    }
 
 };

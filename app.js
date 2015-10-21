@@ -13,6 +13,8 @@ var serverController = require('./server/js/controllers/serverController');
 var singleCo = require('./server/js/controllers/singleCo.server.controller');
 var coVsCompAvg = require('./server/js/controllers/coVsCompAvg.server.controller');
 var multiCo = require('./server/js/controllers/multiCo.server.controller');
+var newVsReturning = require('./server/js/controllers/newVsReturning.server.controller');
+var allQueries = require('./server/js/controllers/allQueries.server.controller');
 
 var liveServer = require("live-server");
 
@@ -51,4 +53,10 @@ app.post('/api/firebase/singleCo', singleCo.submitQuery);
 app.post('/api/firebase/coVsCompAvg', coVsCompAvg.submitQuery);
 
 app.post('/api/firebase/multiCo', multiCo.submitQuery);
+
+app.post('/api/firebase/newVsReturning', newVsReturning.submitQuery);
+
+app.post('/api/firebase/allQueries', allQueries.submitQuery);
+
+
 

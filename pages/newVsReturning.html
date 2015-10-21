@@ -1,0 +1,51 @@
+<div class="jumbotron text-center" ng-controller="newVsReturnController as nvrCtrlr">
+    <h1>New vs Returning Sessions</h1>
+
+
+    <p>{{nvrCtrlr.message}}</p>
+
+    <div class="container text-center" ng-hide='nvrCtrlr.isActive'>
+        <form data-ng-submit="nvrCtrlr.submitQuery()">
+            <div class="form-group">
+                <label for="profileId">Profile ID</label><br />
+                <input required data-ng-model="nvrCtrlr.query.profileId" type="text" id="profileId"
+                       name="profileId" placeholder="19242162" autocomplete="on"/>
+            </div>
+       
+            <div class="form-group">
+                <label for="queryName">Query Name</label><br />
+                <input required data-ng-model="nvrCtrlr.query.queryName" type="text" id="queryName"
+                       name="queryName" placeholder="newVsReturningSessions" autocomplete="on"/>
+            </div>
+
+            <div class="form-group">
+                <label for="startDate">Start Date</label><br />
+                <input required data-ng-model="nvrCtrlr.query.startDate" type="text" id="startDate"
+                       name="startDate" placeholder="2015-08-01" autocomplete="on"/>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End Date</label><br/>
+                <input required data-ng-model="nvrCtrlr.query.endDate" type="text" id="endDate"
+                       name="endDate" placeholder="2015-08-31" autocomplete="on"/>
+            </div>
+
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-primary">Submit</button>
+            <button type="reset" data-ng-click='nvrCtrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
+
+        </form>
+    </div>
+
+    <div ng-show='nvrCtrlr.isActive'>
+        <button type="reset" data-ng-click='nvrCtrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
+        <br/>
+        <br/>
+
+        <canvas id="pie" class="chart chart-pie" chart-data="nvrCtrlr.chartData.data"
+                chart-labels="nvrCtrlr.chartData.labels" chart-legend="false">
+        </canvas>
+    </div>
+
+</div>

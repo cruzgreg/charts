@@ -22,6 +22,7 @@ module.exports.submitQuery = function(req, res){
     function getOneQueryForDateRange (id, queryName, startDate, endDate) {
         var myFirebaseRef = myFirebaseRefRoot
             .child('profileId/ga:' + id + '/byQuery/'+ queryName);
+
         
             myFirebaseRef.orderByKey().startAt(startDate).endAt(endDate)
                 .on("value", function(snapshot) {

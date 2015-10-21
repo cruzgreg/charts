@@ -1,0 +1,45 @@
+<div class="jumbotron text-center" ng-controller="allQueriesController as aqCtrlr">
+    <h1>All Common Queries</h1>
+
+
+    <p>{{aqCtrlr.message}}</p>
+
+    <div class="container text-center" ng-hide='aqCtrlr.isActive'>
+        <form data-ng-submit="aqCtrlr.submitQuery()">
+            <div class="form-group">
+                <label for="profileId">Profile ID</label><br />
+                <input required data-ng-model="aqCtrlr.query.profileId" type="text" id="profileId"
+                       name="profileId" placeholder="19242162" autocomplete="on"/>
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date</label><br />
+                <input required data-ng-model="aqCtrlr.query.date" type="text" id="date"
+                       name="date" placeholder="2015-08-01" autocomplete="on"/>
+            </div>
+
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-primary">Submit</button>
+            <button type="reset" data-ng-click='nvrCtrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
+
+        </form>
+    </div>
+
+    <div ng-show='aqCtrlr.isActive'>
+        <button type="reset" data-ng-click='aqCtrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
+        <br/>
+
+
+        <div id="list" data-ng-repeat="x in aqCtrlr.listData">
+            <ul>
+                <span ng-class-odd="'odd'" ng-class-even="'even'">
+                    <li>{{x}}</li>
+                </span>
+
+            </ul>
+
+        </div>
+    </div>
+
+</div>
