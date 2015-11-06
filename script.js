@@ -30,6 +30,24 @@ myApp.config(function($routeProvider) {
         controller  : 'newVsReturnController'
     })
 
+    // route for Bell Curve
+    .when('/bellCurve', {
+        templateUrl : 'pages/bellCurve.html',
+        controller  : 'bellController'
+    })
+
+    // route for Radar Chart
+    .when('/radarChart', {
+        templateUrl : 'pages/radarChart.html',
+        controller  : 'radarController'
+    })
+
+    // route for Bar Chart
+    .when('/barChart', {
+        templateUrl : 'pages/barChart.html',
+        controller  : 'barController'
+    })
+
     // route 
     .when('/allQueries', {
         templateUrl : 'pages/allQueries.html',
@@ -574,6 +592,261 @@ myApp.controller('allQueriesController', function($scope, $resource) {
 
     };
 
+
+
+});
+
+myApp.controller('bellController', function($scope, $resource) {
+    var vm = this;
+    vm.$scope = $scope;
+
+    vm.message = 'Average order value to eCommerce Conversion Rate';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase/bellCurve');
+
+    vm.isActive = false;
+    vm.query = {};
+    vm.query.timeSpan = 'last30days';
+    vm.query.endDate = '2015-10-31';
+
+
+    vm.myCoData = [];
+
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.series = ['Hawke Universe'];
+    vm.chartData.labels = [
+        1
+        ,2
+        ,3
+        ,4
+        ,5
+        ,6
+        ,7
+        ,8
+        ,9
+        ,10
+    ];
+
+
+    vm.chartData.data = [
+        [
+            10
+            ,10
+            ,15
+            ,20
+            ,25
+            ,45
+            ,25
+            ,20
+            ,15
+            ,10
+        ]
+    ];
+
+    //Register functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+
+            console.log(result);
+            //vm.fbParse(result);
+        });
+
+        vm.isActive = true;
+
+
+    };
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        //vm.query = {};
+        //
+        //vm.chartData.labels = [];
+        //vm.chartData.series = ['Users','Pageviews'];
+        //vm.chartData.data= [];
+        //
+        //vm.datesData = [];
+        //vm.datesData1 = [];
+        //vm.datesData2 = [];
+
+    };
+
+
+});
+
+myApp.controller('radarController', function($scope, $resource) {
+    var vm = this;
+    vm.$scope = $scope;
+
+    vm.message = 'Compare per session value by Source / Medium (denoted in $)';
+
+    //var fbQuery = $resource('http://localhost:3000/api/firebase/singleCo');
+
+    vm.isActive = false;
+
+
+    vm.myCoData = [];
+
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.labels = [
+        "(direct) / (none)"
+        , "email"
+        , "facebook"
+        , "google / organic"
+        , "bing / organic"
+        , "yahoo / organic"
+        , "pinterest.com / referral"
+        , "social / twitter"
+    ];
+
+
+    vm.chartData.data = [
+        [
+            .55
+            , .11
+            , .22
+            , .71
+            , .46
+            , .45
+            , .33
+            , .55
+        ],
+        [
+            .65
+            , .59
+            , .95
+            , .81
+            , .56
+            , .55
+            , .44
+            , .77
+        ]
+    ];
+
+    //Register functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+
+
+    function _submitQuery(){
+
+
+        //var firebaseQuery = new fbQuery();
+        //firebaseQuery.query = vm.query;
+        //firebaseQuery.$save(function(result){
+        //
+        //    vm.fbParse(result);
+        //});
+
+
+        vm.isActive = true;
+
+
+
+    };
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        //vm.query = {};
+        //
+        //vm.chartData.labels = [];
+        //vm.chartData.series = ['Users','Pageviews'];
+        //vm.chartData.data= [];
+        //
+        //vm.datesData = [];
+        //vm.datesData1 = [];
+        //vm.datesData2 = [];
+
+    };
+
+
+});
+
+myApp.controller('barController', function($scope, $resource) {
+    var vm = this;
+    vm.$scope = $scope;
+
+    vm.message = 'Compare eCommerce revenue metrics';
+
+    //var fbQuery = $resource('http://localhost:3000/api/firebase/singleCo');
+
+    vm.isActive = false;
+
+
+    vm.myCoData = [];
+
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.series = ['My Company', 'Hawke eComm Avg'];
+    vm.chartData.labels = [
+        "Direct traffic as % of ECR"
+        , "New traffic as % of ECR"
+
+    ];
+
+
+    vm.chartData.data = [
+        [
+            .15
+            , .35
+
+        ],
+        [
+            .25
+            , .45
+
+        ]
+    ];
+
+    //Register functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+
+
+    function _submitQuery(){
+
+
+        //var firebaseQuery = new fbQuery();
+        //firebaseQuery.query = vm.query;
+        //firebaseQuery.$save(function(result){
+        //
+        //    vm.fbParse(result);
+        //});
+
+
+        vm.isActive = true;
+
+
+
+    };
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        //vm.query = {};
+        //
+        //vm.chartData.labels = [];
+        //vm.chartData.series = ['Users','Pageviews'];
+        //vm.chartData.data= [];
+        //
+        //vm.datesData = [];
+        //vm.datesData1 = [];
+        //vm.datesData2 = [];
+
+    };
 
 
 });

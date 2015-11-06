@@ -1,0 +1,60 @@
+<div class="jumbotron text-center" ng-controller="radarController as rCtrlr">
+    <h1>Radar Chart</h1>
+
+
+    <p>{{rCtrlr.message}}</p>
+
+    <div class="container text-center" ng-hide='rCtrlr.isActive'>
+
+
+        <form data-ng-submit="rCtrlr.submitQuery()">
+            <!--<div class="form-group">-->
+                <!--<label for="facebook">facebook</label><br />-->
+                <!--<input required data-ng-model="rCtrlr.query.facebook" type="number" id="facebook"-->
+                       <!--name="facebook" placeholder="4" autocomplete="on"/>-->
+            <!--</div>-->
+
+            <!--<div class="form-group">-->
+                <!--<label for="pinterest">pinterest</label><br />-->
+                <!--<input required data-ng-model="rCtrlr.query.pinterest" type="number" id="pinterest"-->
+                       <!--name="pinterest" placeholder="5" autocomplete="on"/>-->
+            <!--</div>-->
+
+            <!--<div class="form-group">-->
+                <!--<label for="google">google</label><br />-->
+                <!--<input required data-ng-model="rCtrlr.query.google" type="number" id="google"-->
+                       <!--name="google" placeholder="6" autocomplete="on"/>-->
+            <!--</div>-->
+
+            <!--<div class="form-group">-->
+                <!--<label for="yahoo">yahoo</label><br/>-->
+                <!--<input required data-ng-model="rCtrlr.query.yahoo" type="number" id="yahoo"-->
+                       <!--name="yahoo" placeholder="7" autocomplete="on"/>-->
+            <!--</div>-->
+
+            <!--<div class="form-group">-->
+                <!--<label for="bing">bing</label><br />-->
+                <!--<input required data-ng-model="rCtrlr.query.bing" type="number" id="bing"-->
+                       <!--name="bing" placeholder="8" autocomplete="on"/>-->
+            <!--</div>-->
+
+
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-primary">Submit</button>
+            <button type="reset" data-ng-click='rCtrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
+
+        </form>
+    </div>
+
+    <div ng-show='rCtrlr.isActive'>
+        <button type="reset" data-ng-click='rCtrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
+        <br/>
+        <br/>
+
+        <canvas id="radar" class="chart chart-radar" chart-data="rCtrlr.chartData.data"
+                chart-labels="rCtrlr.chartData.labels" chart-legend="false" >
+        </canvas>
+    </div>
+
+</div>

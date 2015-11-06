@@ -15,6 +15,7 @@ var coVsCompAvg = require('./server/js/controllers/coVsCompAvg.server.controller
 var multiCo = require('./server/js/controllers/multiCo.server.controller');
 var newVsReturning = require('./server/js/controllers/newVsReturning.server.controller');
 var allQueries = require('./server/js/controllers/allQueries.server.controller');
+var bellCurve = require('./server/js/controllers/bellCurve.server.controller');
 
 var liveServer = require("live-server");
 
@@ -57,6 +58,8 @@ app.post('/api/firebase/multiCo', multiCo.submitQuery);
 app.post('/api/firebase/newVsReturning', newVsReturning.submitQuery);
 
 app.post('/api/firebase/allQueries', allQueries.submitQuery);
+
+app.post('/api/firebase/bellCurve', bellCurve.submitQuery);
 
 
 

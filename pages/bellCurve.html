@@ -1,0 +1,41 @@
+<div class="jumbotron text-center" ng-controller="bellController as bellCtrlr">
+    <h1>Bell Curve</h1>
+
+
+    <p>{{bellCtrlr.message}}</p>
+
+    <div class="container text-center" ng-hide='bellCtrlr.isActive'>
+
+
+        <form data-ng-submit="bellCtrlr.submitQuery()">
+            <div class="form-group">
+                <label for="endDate">End Date</label><br/>
+                <input required data-ng-model="bellCtrlr.query.endDate" type="text" id="endDate"
+                       name="endDate" placeholder="2015-10-31" autocomplete="on"/>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">Time Span</label><br/>
+                <input required data-ng-model="bellCtrlr.query.timeSpan" type="text" id="timeSpan"
+                       name="timeSpan" placeholder="last30days" autocomplete="on"/>
+            </div>
+
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-primary">Submit</button>
+            <button type="reset" data-ng-click='bellCtrlr.clearForm()' class="btn btn-large btn-primary">Clear</button>
+
+        </form>
+    </div>
+
+    <div ng-show='bellCtrlr.isActive'>
+        <button type="reset" data-ng-click='bellCtrlr.clearForm()' class="btn btn-large btn-primary">Unhide Form</button>
+        <br/>
+        <br/>
+
+        <canvas id="line" class="chart chart-line" chart-data="bellCtrlr.chartData.data"
+                chart-labels="bellCtrlr.chartData.labels" chart-legend="false" chart-series="bellCtrlr.chartData.series">
+        </canvas>
+    </div>
+
+</div>
