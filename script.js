@@ -609,61 +609,19 @@ myApp.controller('bellController', function($scope, $resource) {
     vm.query.timeSpan = 'last30days';
     vm.query.endDate = '2015-10-31';
 
-
-    vm.myCoData = [];
-
-
     //Chart JS
     vm.chartData = {};
     vm.chartData.series = ['Hawke Universe'];
-    vm.chartData.labels = [
-        1
-        ,2
-        ,3
-        ,4
-        ,5
-        ,6
-        ,7
-        ,8
-        ,9
-        ,10
-    ];
+    vm.chartData.labels = [];
+    vm.chartData.data = [];
 
-
-    vm.chartData.data = [
-        [
-            10
-            ,10
-            ,15
-            ,20
-            ,25
-            ,45
-            ,25
-            ,20
-            ,15
-            ,10
-        ]
-    ];
 
     //Register functions
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
-
-
-    function _submitQuery(){
-
-        var firebaseQuery = new fbQuery();
-        firebaseQuery.query = vm.query;
-        firebaseQuery.$save(function(result){
-
-            console.log(result);
-            //vm.fbParse(result);
-        });
-
-        vm.isActive = true;
-
-
-    };
+    vm.fbParseData = _fbParseData;
+    vm.countList = _countList;
+    vm.orderData = _orderData;
 
     function _clearForm (){
         vm.isActive = false;
@@ -678,7 +636,54 @@ myApp.controller('bellController', function($scope, $resource) {
         //vm.datesData1 = [];
         //vm.datesData2 = [];
 
-    };
+    }
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+            console.log(result);
+            vm.fbParseData(result);
+        });
+    }
+
+    function _fbParseData(input) {
+        var tempArray = [];
+
+        var i;
+        for (i in input) {
+            if(typeof( input[i] ) ===  'object') {
+
+                var j;
+                var singleDataset = input[i];
+                for( j in singleDataset ) {
+                    if(j === 'avgOrderVsConversionRate') {
+                        tempArray.push(singleDataset[j].toFixed(2));
+                    }
+                }
+            }
+
+        }
+        vm.orderData(tempArray);
+        vm.countList(tempArray);
+
+    }
+
+    function _orderData(array) {
+        array.sort(function(a,b){});
+        vm.chartData.data.push(array);
+        console.log(vm.chartData.data);
+
+    }
+
+    function _countList(array){
+        var counter = 0;
+        for(var i = 0; i < array.length; i++) {
+            vm.chartData.labels.push(counter += 1);
+        }
+        vm.isActive = true;
+    }
 
 
 });
@@ -689,72 +694,50 @@ myApp.controller('radarController', function($scope, $resource) {
 
     vm.message = 'Compare per session value by Source / Medium (denoted in $)';
 
-    //var fbQuery = $resource('http://localhost:3000/api/firebase/singleCo');
+    var fbQuery = $resource('http://localhost:3000/api/firebase/radarChart');
 
     vm.isActive = false;
-
-
-    vm.myCoData = [];
-
+    vm.query = {};
+    vm.query.timeSpan = 'last30days';
+    vm.query.endDate = '2015-10-31';
 
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [
         "(direct) / (none)"
         , "email"
-        , "facebook"
         , "google / organic"
         , "bing / organic"
         , "yahoo / organic"
         , "pinterest.com / referral"
         , "social / twitter"
+        //, "facebook"
+
     ];
 
-
-    vm.chartData.data = [
-        [
-            .55
-            , .11
-            , .22
-            , .71
-            , .46
-            , .45
-            , .33
-            , .55
-        ],
-        [
-            .65
-            , .59
-            , .95
-            , .81
-            , .56
-            , .55
-            , .44
-            , .77
-        ]
-    ];
+    vm.chartData.data = [];
+    vm.directData = [];
+    vm.bingData = [];
+    vm.yahooData = [];
+    vm.emailData = [];
+    vm.googleData = [];
+    vm.twitterData = [];
+    vm.pinterestData = [];
+    vm.tempArray = [];
 
     //Register functions
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
+    vm.fbParseData = _fbParseData;
+    vm.takeAvgs = _takeAvgs;
+    vm.avgDirect = _avgDirect;
+    vm.avgEmail = _avgEmail;
+    vm.avgGoogle = _avgGoogle;
+    vm.avgBing = _avgBing;
+    vm.avgYahoo = _avgYahoo;
+    vm.avgTwitter = _avgTwitter;
+    vm.avgPinterest = _avgPinterest;
 
-
-    function _submitQuery(){
-
-
-        //var firebaseQuery = new fbQuery();
-        //firebaseQuery.query = vm.query;
-        //firebaseQuery.$save(function(result){
-        //
-        //    vm.fbParse(result);
-        //});
-
-
-        vm.isActive = true;
-
-
-
-    };
 
     function _clearForm (){
         vm.isActive = false;
@@ -769,7 +752,146 @@ myApp.controller('radarController', function($scope, $resource) {
         //vm.datesData1 = [];
         //vm.datesData2 = [];
 
-    };
+    }
+
+    function _submitQuery(){
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+            vm.fbParseData(result);
+        });
+
+
+    }
+
+    function _fbParseData(input) {
+        var i;
+        for(i in input){
+
+            if( typeof( input[i] ) ===  'object' ){
+
+                var j;
+                var singleDataset = input[i];
+
+                for( j in singleDataset ){
+                    if( typeof(singleDataset[j]) === 'object') {
+
+                        var k;
+                        var mediumData = singleDataset[j];
+                        for(k in mediumData) {
+                            if(k === "directNone") {
+                                vm.directData.push(mediumData[k]);
+                            }
+
+                            if(k === "email") {
+                                vm.emailData.push(mediumData[k]);
+                            }
+
+                            if(k === "googleOrganic") {
+                                vm.googleData.push(mediumData[k]);
+                            }
+
+                            if(k === "bingOrganic") {
+                                vm.bingData.push(mediumData[k]);
+                            }
+
+                            if(k === "yahooOrganic") {
+                                vm.yahooData.push(mediumData[k]);
+                            }
+
+                            if(k === "socialTwitter") {
+                                vm.twitterData.push(mediumData[k]);
+                            }
+
+                            if(k === "pinterestRef") {
+                                vm.pinterestData.push(mediumData[k]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        vm.takeAvgs();
+
+    }
+
+    function _takeAvgs(){
+        vm.avgDirect(vm.directData);
+        vm.avgEmail(vm.emailData);
+        vm.avgGoogle(vm.googleData);
+        vm.avgBing(vm.bingData);
+        vm.avgYahoo(vm.yahooData);
+        vm.avgTwitter(vm.twitterData);
+        vm.avgPinterest(vm.pinterestData);
+
+        vm.chartData.data.push(vm.tempArray);
+        vm.isActive = true;
+
+    }
+
+    function _avgDirect(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+           sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[0] = output;
+
+    }
+
+    function _avgEmail(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[1] = output;
+    }
+
+    function _avgGoogle(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[2] = output;
+    }
+
+    function _avgBing(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[3] = output;
+    }
+
+    function _avgYahoo(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[4] = output;
+    }
+
+    function _avgTwitter(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[5] = output;
+    }
+
+    function _avgPinterest(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length).toFixed(2);
+        vm.tempArray[6] = output;
+    }
 
 
 });
@@ -780,58 +902,37 @@ myApp.controller('barController', function($scope, $resource) {
 
     vm.message = 'Compare eCommerce revenue metrics';
 
-    //var fbQuery = $resource('http://localhost:3000/api/firebase/singleCo');
+    var fbQuery = $resource('http://localhost:3000/api/firebase/barChart');
 
     vm.isActive = false;
-
-
-    vm.myCoData = [];
+    vm.query = {};
+    vm.query.timeSpan = 'last30days';
+    vm.query.endDate = '2015-10-31';
 
 
     //Chart JS
     vm.chartData = {};
-    vm.chartData.series = ['My Company', 'Hawke eComm Avg'];
+    vm.chartData.data = [];
+    vm.chartData.series = ['Hawke eComm Avg'];
     vm.chartData.labels = [
         "Direct traffic as % of ECR"
         , "New traffic as % of ECR"
 
     ];
 
+    vm.directData = [];
+    vm.newUserData = [];
+    vm.tempArray = [];
 
-    vm.chartData.data = [
-        [
-            .15
-            , .35
-
-        ],
-        [
-            .25
-            , .45
-
-        ]
-    ];
 
     //Register functions
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
+    vm.fbParseData = _fbParseData;
+    vm.takeAvgs = _takeAvgs;
+    vm.avgDirect = _avgDirect;
+    vm.avgNewUser = _avgNewUser;
 
-
-    function _submitQuery(){
-
-
-        //var firebaseQuery = new fbQuery();
-        //firebaseQuery.query = vm.query;
-        //firebaseQuery.$save(function(result){
-        //
-        //    vm.fbParse(result);
-        //});
-
-
-        vm.isActive = true;
-
-
-
-    };
 
     function _clearForm (){
         vm.isActive = false;
@@ -846,7 +947,69 @@ myApp.controller('barController', function($scope, $resource) {
         //vm.datesData1 = [];
         //vm.datesData2 = [];
 
-    };
+    }
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+            vm.fbParseData(result);
+        });
+
+    }
+
+    function _fbParseData(input) {
+
+        var i;
+        for (i in input) {
+
+            if (typeof( input[i] ) === 'object') {
+
+                var j;
+                var singleDataset = input[i];
+
+                for (j in singleDataset) {
+                    if (j === 'directRevPercent') {
+                        vm.directData.push(singleDataset[j]);
+                    }
+
+                    if (j === 'newUserRevPercent') {
+                        vm.newUserData.push(singleDataset[j]);
+                    }
+
+                }
+            }
+        }
+        vm.takeAvgs();
+    }
+
+    function _takeAvgs(){
+        vm.avgDirect(vm.directData);
+        vm.avgNewUser(vm.newUserData);
+
+        vm.chartData.data.push(vm.tempArray);
+        vm.isActive = true;
+
+    }
+
+    function _avgDirect(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length * 100).toFixed(1);
+        vm.tempArray[0] = output;
+    }
+
+    function _avgNewUser(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = (sum / array.length * 100).toFixed(1);
+        vm.tempArray[1] = output;
+    }
 
 
 });

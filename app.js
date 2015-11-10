@@ -16,6 +16,8 @@ var multiCo = require('./server/js/controllers/multiCo.server.controller');
 var newVsReturning = require('./server/js/controllers/newVsReturning.server.controller');
 var allQueries = require('./server/js/controllers/allQueries.server.controller');
 var bellCurve = require('./server/js/controllers/bellCurve.server.controller');
+var radar = require('./server/js/controllers/radar.server.controller');
+var barChart = require('./server/js/controllers/barChart.server.controller');
 
 var liveServer = require("live-server");
 
@@ -60,6 +62,12 @@ app.post('/api/firebase/newVsReturning', newVsReturning.submitQuery);
 app.post('/api/firebase/allQueries', allQueries.submitQuery);
 
 app.post('/api/firebase/bellCurve', bellCurve.submitQuery);
+
+app.post('/api/firebase/radarChart', radar.submitQuery);
+
+app.post('/api/firebase/barChart', barChart.submitQuery);
+
+
 
 
 

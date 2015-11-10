@@ -23,8 +23,8 @@ module.exports.submitQuery = function(req, res){
         var myFirebaseRef = myFirebaseRefRoot.child(timeSpan + '/' + endDate);
 
         myFirebaseRef.on("value", function(snapshot) {
-                res.json(snapshot.val());
-            });
+            res.json(snapshot.val());
+        });
 
 
     };
