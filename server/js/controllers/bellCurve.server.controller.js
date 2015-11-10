@@ -16,11 +16,11 @@ module.exports.submitQuery = function(req, res){
     var query = req.body;
     var queryDetails = query['query'];
 
-    getOneQueryForDateRange(queryDetails.timeSpan, queryDetails.endDate);
+    getOneQueryForDateRange(queryDetails.startDate, queryDetails.endDate);
 
 
-    function getOneQueryForDateRange (timeSpan, endDate) {
-        var myFirebaseRef = myFirebaseRefRoot.child(timeSpan + '/' + endDate);
+    function getOneQueryForDateRange (startDate, endDate) {
+        var myFirebaseRef = myFirebaseRefRoot.child(startDate + '/' + endDate);
 
         myFirebaseRef.on("value", function(snapshot) {
                 res.json(snapshot.val());

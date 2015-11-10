@@ -600,13 +600,13 @@ myApp.controller('bellController', function($scope, $resource) {
     var vm = this;
     vm.$scope = $scope;
 
-    vm.message = 'Average order value to eCommerce Conversion Rate';
+    vm.message = 'Average Order Value to eCommerce Conversion Rate';
 
     var fbQuery = $resource('http://localhost:3000/api/firebase/bellCurve');
 
     vm.isActive = false;
     vm.query = {};
-    vm.query.timeSpan = 'last30days';
+    vm.query.startDate = '30daysAgo';
     vm.query.endDate = '2015-10-31';
 
     //Chart JS
@@ -643,7 +643,6 @@ myApp.controller('bellController', function($scope, $resource) {
         var firebaseQuery = new fbQuery();
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
-            console.log(result);
             vm.fbParseData(result);
         });
     }
@@ -659,12 +658,13 @@ myApp.controller('bellController', function($scope, $resource) {
                 var singleDataset = input[i];
                 for( j in singleDataset ) {
                     if(j === 'avgOrderVsConversionRate') {
-                        tempArray.push(singleDataset[j].toFixed(2));
+                        tempArray.push( Number(singleDataset[j].toFixed(2) ));
                     }
                 }
             }
 
         }
+        //tempArray.sort(function(a,b){});
         vm.orderData(tempArray);
         vm.countList(tempArray);
 
@@ -673,7 +673,7 @@ myApp.controller('bellController', function($scope, $resource) {
     function _orderData(array) {
         array.sort(function(a,b){});
         vm.chartData.data.push(array);
-        console.log(vm.chartData.data);
+        console.log(array);
 
     }
 
@@ -692,26 +692,26 @@ myApp.controller('radarController', function($scope, $resource) {
     var vm = this;
     vm.$scope = $scope;
 
-    vm.message = 'Compare per session value by Source / Medium (denoted in $)';
+    vm.message = 'Compare per Session Value by Source / Medium (denoted in $)';
 
     var fbQuery = $resource('http://localhost:3000/api/firebase/radarChart');
 
     vm.isActive = false;
     vm.query = {};
-    vm.query.timeSpan = 'last30days';
+    vm.query.startDate = '30daysAgo';
     vm.query.endDate = '2015-10-31';
 
     //Chart JS
     vm.chartData = {};
     vm.chartData.labels = [
-        "(direct) / (none)"
-        , "email"
-        , "google / organic"
-        , "bing / organic"
-        , "yahoo / organic"
-        , "pinterest.com / referral"
-        , "social / twitter"
-        //, "facebook"
+        "Direct"
+        , "Email"
+        , "Google / Organic"
+        , "Bing / Organic"
+        , "Yahoo / Organic"
+        , "Pinterest"
+        , "Twitter"
+        , "Facebook"
 
     ];
 
@@ -723,6 +723,7 @@ myApp.controller('radarController', function($scope, $resource) {
     vm.googleData = [];
     vm.twitterData = [];
     vm.pinterestData = [];
+    vm.facebookData = [];
     vm.tempArray = [];
 
     //Register functions
@@ -737,6 +738,7 @@ myApp.controller('radarController', function($scope, $resource) {
     vm.avgYahoo = _avgYahoo;
     vm.avgTwitter = _avgTwitter;
     vm.avgPinterest = _avgPinterest;
+    vm.avgFacebook = _avgFacebook;
 
 
     function _clearForm (){
@@ -799,6 +801,10 @@ myApp.controller('radarController', function($scope, $resource) {
                                 vm.yahooData.push(mediumData[k]);
                             }
 
+                            if(k === "facebook") {
+                                vm.facebookData.push(mediumData[k]);
+                            }
+
                             if(k === "socialTwitter") {
                                 vm.twitterData.push(mediumData[k]);
                             }
@@ -823,8 +829,10 @@ myApp.controller('radarController', function($scope, $resource) {
         vm.avgYahoo(vm.yahooData);
         vm.avgTwitter(vm.twitterData);
         vm.avgPinterest(vm.pinterestData);
+        vm.avgFacebook(vm.facebookData);
 
         vm.chartData.data.push(vm.tempArray);
+        console.log(vm.chartData.data);
         vm.isActive = true;
 
     }
@@ -834,7 +842,7 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
            sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[0] = output;
 
     }
@@ -844,7 +852,7 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[1] = output;
     }
 
@@ -853,7 +861,7 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[2] = output;
     }
 
@@ -862,7 +870,7 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[3] = output;
     }
 
@@ -871,7 +879,7 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[4] = output;
     }
 
@@ -880,7 +888,7 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[5] = output;
     }
 
@@ -889,10 +897,18 @@ myApp.controller('radarController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length).toFixed(2);
+        var output = Number( (sum / array.length).toFixed(2) );
         vm.tempArray[6] = output;
     }
 
+    function _avgFacebook(array) {
+        sum = 0;
+        for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
+            sum += dataPoint;
+        }
+        var output = Number( (sum / array.length).toFixed(2) );
+        vm.tempArray[7] = output;
+    }
 
 });
 
@@ -900,13 +916,13 @@ myApp.controller('barController', function($scope, $resource) {
     var vm = this;
     vm.$scope = $scope;
 
-    vm.message = 'Compare eCommerce revenue metrics';
+    vm.message = 'Compare eCommerce Revenue Metrics';
 
     var fbQuery = $resource('http://localhost:3000/api/firebase/barChart');
 
     vm.isActive = false;
     vm.query = {};
-    vm.query.timeSpan = 'last30days';
+    vm.query.startDate = '30daysAgo';
     vm.query.endDate = '2015-10-31';
 
 
@@ -989,6 +1005,7 @@ myApp.controller('barController', function($scope, $resource) {
         vm.avgNewUser(vm.newUserData);
 
         vm.chartData.data.push(vm.tempArray);
+        console.log(vm.chartData.data);
         vm.isActive = true;
 
     }
@@ -998,7 +1015,7 @@ myApp.controller('barController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length * 100).toFixed(1);
+        var output = Number( (sum / array.length * 100).toFixed(1) );
         vm.tempArray[0] = output;
     }
 
@@ -1007,7 +1024,7 @@ myApp.controller('barController', function($scope, $resource) {
         for (var x = 0, dataPoint; dataPoint = array[x]; x++) {
             sum += dataPoint;
         }
-        var output = (sum / array.length * 100).toFixed(1);
+        var output = Number ((sum / array.length * 100).toFixed(1) );
         vm.tempArray[1] = output;
     }
 

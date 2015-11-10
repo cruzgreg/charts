@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="365b88ad-0bd3-41c1-ba6c-85f811a3a066" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/barChart.html" afterPath="$PROJECT_DIR$/pages/barChart.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/bellCurve.html" afterPath="$PROJECT_DIR$/pages/bellCurve.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pages/radarChart.html" afterPath="$PROJECT_DIR$/pages/radarChart.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script.js" afterPath="$PROJECT_DIR$/script.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/js/controllers/barChart.server.controller.js" afterPath="$PROJECT_DIR$/server/js/controllers/barChart.server.controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/js/controllers/bellCurve.server.controller.js" afterPath="$PROJECT_DIR$/server/js/controllers/bellCurve.server.controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/js/controllers/radar.server.controller.js" afterPath="$PROJECT_DIR$/server/js/controllers/radar.server.controller.js" />
     </list>
     <ignored path="charts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,11 +31,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="barChart.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pages/barChart.html">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.125">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="-7.625">
+              <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="radarChart.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/radarChart.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.875">
+              <caret line="19" column="62" selection-start-line="19" selection-start-column="62" selection-end-line="19" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -41,8 +54,8 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.560166">
-              <caret line="664" column="13" selection-start-line="664" selection-start-column="13" selection-end-line="664" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.4979253">
+              <caret line="1032" column="0" selection-start-line="1032" selection-start-column="0" selection-end-line="1032" selection-end-column="0" />
               <folding>
                 <element signature="e#183#1325#0" expanded="false" />
                 <element signature="e#1394#5001#0" expanded="false" />
@@ -54,26 +67,29 @@
                 <element signature="e#8266#10483#0" expanded="false" />
                 <element signature="e#10557#12919#0" expanded="false" />
                 <element signature="e#12992#14301#0" expanded="false" />
+                <element signature="e#14368#16495#0" expanded="false" />
+                <element signature="e#15041#15339#0" expanded="false" />
                 <element signature="e#15081#15097#0" expanded="false" />
-                <element signature="e#16555#22051#0" expanded="false" />
-                <element signature="e#17795#18093#0" expanded="false" />
-                <element signature="e#18122#18308#0" expanded="false" />
-                <element signature="e#18343#19936#0" expanded="false" />
-                <element signature="e#19962#20304#0" expanded="false" />
-                <element signature="e#20337#20553#0" expanded="false" />
-                <element signature="e#20585#20801#0" expanded="false" />
-                <element signature="e#20834#21050#0" expanded="false" />
-                <element signature="e#21081#21297#0" expanded="false" />
-                <element signature="e#21329#21545#0" expanded="false" />
-                <element signature="e#21579#21795#0" expanded="false" />
-                <element signature="e#21831#22047#0" expanded="false" />
-                <element signature="e#22117#24765#0" expanded="false" />
-                <element signature="e#22960#23258#0" expanded="false" />
-                <element signature="e#23287#23473#0" expanded="false" />
-                <element signature="e#23508#24065#0" expanded="false" />
-                <element signature="e#24091#24250#0" expanded="false" />
-                <element signature="e#24283#24505#0" expanded="false" />
-                <element signature="e#24539#24761#0" expanded="false" />
+                <element signature="e#15368#15553#0" expanded="false" />
+                <element signature="e#15588#16144#0" expanded="false" />
+                <element signature="e#16177#16289#0" expanded="false" />
+                <element signature="e#16321#16491#0" expanded="false" />
+                <element signature="e#16563#22645#0" expanded="false" />
+                <element signature="e#17827#18125#0" expanded="false" />
+                <element signature="e#18154#18340#0" expanded="false" />
+                <element signature="e#18375#20119#0" expanded="false" />
+                <element signature="e#20145#20568#0" expanded="false" />
+                <element signature="e#20601#20827#0" expanded="false" />
+                <element signature="e#20859#21085#0" expanded="false" />
+                <element signature="e#21118#21344#0" expanded="false" />
+                <element signature="e#21375#21601#0" expanded="false" />
+                <element signature="e#21633#21859#0" expanded="false" />
+                <element signature="e#21893#22119#0" expanded="false" />
+                <element signature="e#22155#22381#0" expanded="false" />
+                <element signature="e#22416#22642#0" expanded="false" />
+                <element signature="e#22711#25419#0" expanded="false" />
+                <element signature="e#23554#23852#0" expanded="false" />
+                <element signature="e#23881#24067#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -117,16 +133,16 @@
         <option value="$PROJECT_DIR$/server/js/controllers/allQueries.server.controller.js" />
         <option value="$PROJECT_DIR$/pages/allQueries.html" />
         <option value="$PROJECT_DIR$/pages/newVsReturning.html" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/node_modules/ejs/lib/utils.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/pages/barChart.html" />
         <option value="$PROJECT_DIR$/pages/bellCurve.html" />
         <option value="$PROJECT_DIR$/pages/radarChart.html" />
         <option value="$PROJECT_DIR$/server/js/controllers/barChart.server.controller.js" />
-        <option value="$PROJECT_DIR$/server/js/controllers/radar.server.controller.js" />
         <option value="$PROJECT_DIR$/server/js/controllers/bellCurve.server.controller.js" />
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/pages/barChart.html" />
+        <option value="$PROJECT_DIR$/server/js/controllers/radar.server.controller.js" />
         <option value="$PROJECT_DIR$/script.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -262,7 +278,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../squawk-" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="SearchEverywhereHistoryKey" value="isfunction&#9;FILE&#9;file:///Users/cruz/Sites/charts/node_modules/acl/node_modules/lodash/lang/isFunction.js&#10;module&#9;null&#9;null" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
@@ -403,7 +419,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -689,13 +705,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33476394">
-          <caret line="35" column="81" selection-start-line="35" selection-start-column="81" selection-end-line="35" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/singleCo.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5579399">
@@ -708,7 +717,7 @@
         <state vertical-scroll-proportion="-5.348548">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -720,58 +729,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/js/controllers/radar.server.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.373444">
-          <caret line="18" column="73" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/js/controllers/bellCurve.server.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4979253">
-          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/js/controllers/allQueries.server.controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.62240666">
           <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/bellCurve.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.5">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/radarChart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17167382">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/barChart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.125">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/js/controllers/barChart.server.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4979253">
-          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
           <folding />
         </state>
       </provider>
@@ -786,10 +747,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/js/controllers/radar.server.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41493776">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/js/controllers/barChart.server.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47717842">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/barChart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40772533">
+          <caret line="19" column="62" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/js/controllers/bellCurve.server.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41493776">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/bellCurve.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34334764">
+          <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/radarChart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.875">
+          <caret line="19" column="62" selection-start-line="19" selection-start-column="62" selection-end-line="19" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.625">
+          <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.560166">
-          <caret line="664" column="13" selection-start-line="664" selection-start-column="13" selection-end-line="664" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.4979253">
+          <caret line="1032" column="0" selection-start-line="1032" selection-start-column="0" selection-end-line="1032" selection-end-column="0" />
           <folding>
             <element signature="e#183#1325#0" expanded="false" />
             <element signature="e#1394#5001#0" expanded="false" />
@@ -801,26 +818,29 @@
             <element signature="e#8266#10483#0" expanded="false" />
             <element signature="e#10557#12919#0" expanded="false" />
             <element signature="e#12992#14301#0" expanded="false" />
+            <element signature="e#14368#16495#0" expanded="false" />
+            <element signature="e#15041#15339#0" expanded="false" />
             <element signature="e#15081#15097#0" expanded="false" />
-            <element signature="e#16555#22051#0" expanded="false" />
-            <element signature="e#17795#18093#0" expanded="false" />
-            <element signature="e#18122#18308#0" expanded="false" />
-            <element signature="e#18343#19936#0" expanded="false" />
-            <element signature="e#19962#20304#0" expanded="false" />
-            <element signature="e#20337#20553#0" expanded="false" />
-            <element signature="e#20585#20801#0" expanded="false" />
-            <element signature="e#20834#21050#0" expanded="false" />
-            <element signature="e#21081#21297#0" expanded="false" />
-            <element signature="e#21329#21545#0" expanded="false" />
-            <element signature="e#21579#21795#0" expanded="false" />
-            <element signature="e#21831#22047#0" expanded="false" />
-            <element signature="e#22117#24765#0" expanded="false" />
-            <element signature="e#22960#23258#0" expanded="false" />
-            <element signature="e#23287#23473#0" expanded="false" />
-            <element signature="e#23508#24065#0" expanded="false" />
-            <element signature="e#24091#24250#0" expanded="false" />
-            <element signature="e#24283#24505#0" expanded="false" />
-            <element signature="e#24539#24761#0" expanded="false" />
+            <element signature="e#15368#15553#0" expanded="false" />
+            <element signature="e#15588#16144#0" expanded="false" />
+            <element signature="e#16177#16289#0" expanded="false" />
+            <element signature="e#16321#16491#0" expanded="false" />
+            <element signature="e#16563#22645#0" expanded="false" />
+            <element signature="e#17827#18125#0" expanded="false" />
+            <element signature="e#18154#18340#0" expanded="false" />
+            <element signature="e#18375#20119#0" expanded="false" />
+            <element signature="e#20145#20568#0" expanded="false" />
+            <element signature="e#20601#20827#0" expanded="false" />
+            <element signature="e#20859#21085#0" expanded="false" />
+            <element signature="e#21118#21344#0" expanded="false" />
+            <element signature="e#21375#21601#0" expanded="false" />
+            <element signature="e#21633#21859#0" expanded="false" />
+            <element signature="e#21893#22119#0" expanded="false" />
+            <element signature="e#22155#22381#0" expanded="false" />
+            <element signature="e#22416#22642#0" expanded="false" />
+            <element signature="e#22711#25419#0" expanded="false" />
+            <element signature="e#23554#23852#0" expanded="false" />
+            <element signature="e#23881#24067#0" expanded="false" />
           </folding>
         </state>
       </provider>
