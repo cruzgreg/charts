@@ -664,14 +664,15 @@ myApp.controller('bellController', function($scope, $resource) {
             }
 
         }
-        //tempArray.sort(function(a,b){});
+        tempArray.sort(function(a,b){
+            return a > b ? 1 : a < b ? -1 : 0;
+        });
         vm.orderData(tempArray);
         vm.countList(tempArray);
 
     }
 
     function _orderData(array) {
-        array.sort(function(a,b){});
         vm.chartData.data.push(array);
         console.log(array);
 
