@@ -1,6 +1,12 @@
 var firebase = require('firebase');
-var myFirebaseRefRoot = new firebase('https://glaring-fire-5175.firebaseio.com/');
 var Debug = require('console-debug');
+
+//Firebase databases
+//greg@hurffhouse acct
+var myFirebaseRefRoot = new firebase('https://glaring-fire-5175.firebaseio.com/');
+
+//cruzgreg@gmail acct
+var soloFirebaseRefRoot = new firebase('https://blinding-torch-5272.firebaseio.com/');
 
 var console = new Debug({
     uncaughtExceptionCatch: true, // Do we want to catch uncaughtExceptions?
@@ -15,17 +21,24 @@ module.exports.submitQuery = function(req, res){
 
     var query = req.body;
     var queryDetails = query['query'];
+    var responseData = {};
 
     getOneQueryForDateRange(queryDetails.startDate, queryDetails.endDate);
 
 
     function getOneQueryForDateRange (startDate, endDate) {
         var myFirebaseRef = myFirebaseRefRoot.child(startDate + '/' + endDate);
+        var soloFirebaseRef = soloFirebaseRefRoot.child(startDate + '/' + endDate);
 
         myFirebaseRef.on("value", function(snapshot) {
-            res.json(snapshot.val());
+            responseData.avg = snapshot.val();
         });
 
+        soloFirebaseRef.on("value", function(snapshot) {
+            responseData.solo = snapshot.val();
+        });
+
+        res.json(responseData);
 
     };
 

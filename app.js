@@ -19,7 +19,6 @@ var bellCurve = require('./server/js/controllers/bellCurve.server.controller');
 var radar = require('./server/js/controllers/radar.server.controller');
 var barChart = require('./server/js/controllers/barChart.server.controller');
 
-var liveServer = require("live-server");
 
 //Create the application
 var app = express();
@@ -27,7 +26,6 @@ var app = express();
 //Add Middleware necessary for REST APIs
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-//app.use(methodOverride('X-HTTP-Method-Override'));
 
 app.use('/js', express.static(__dirname + '/client/js'));
 

@@ -6,30 +6,6 @@ var myApp = angular.module('myApp', ['ngRoute', 'chart.js', 'ngResource']);
 myApp.config(function($routeProvider) {
     $routeProvider
 
-    // route 
-    .when('/', {
-        templateUrl : 'pages/home.html',
-        controller  : 'mainController'
-    })
-
-    // route 
-    .when('/multiComp', {
-        templateUrl : 'pages/multi.html',
-        controller  : 'multiCompController'
-    })
-
-    // route 
-    .when('/singleCo', {
-        templateUrl : 'pages/singleCo.html',
-        controller  : 'singleCoController'
-    })
-
-    // route
-    .when('/newVsReturning', {
-        templateUrl : 'pages/newVsReturning.html',
-        controller  : 'newVsReturnController'
-    })
-
     // route for Bell Curve
     .when('/bellCurve', {
         templateUrl : 'pages/bellCurve.html',
@@ -43,16 +19,11 @@ myApp.config(function($routeProvider) {
     })
 
     // route for Bar Chart
-    .when('/barChart', {
+    .when('/', {
         templateUrl : 'pages/barChart.html',
         controller  : 'barController'
     })
 
-    // route 
-    .when('/allQueries', {
-        templateUrl : 'pages/allQueries.html',
-        controller  : 'allQueriesController'
-    });
 });
 
 
@@ -740,6 +711,8 @@ myApp.controller('radarController', function($scope, $resource) {
     vm.avgTwitter = _avgTwitter;
     vm.avgPinterest = _avgPinterest;
     vm.avgFacebook = _avgFacebook;
+    vm.fbParseDataSolo = _fbParseDataSolo;
+    vm.fill = _fill;
 
 
     function _clearForm (){
@@ -761,11 +734,137 @@ myApp.controller('radarController', function($scope, $resource) {
         var firebaseQuery = new fbQuery();
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
-            vm.fbParseData(result);
+            //vm.fbParseData(result);
+            //console.log(result);
+            console.log(result.avg);
+            console.log(result.solo);
+            vm.fbParseData(result.avg);
+            vm.fbParseDataSolo(result.solo);
         });
 
 
     }
+
+    function _fbParseDataSolo(input) {
+        var i;
+        var tempArray = [];
+        for(i in input){
+
+            if( typeof( input[i] ) ===  'object' ){
+
+                var j;
+                var singleDataset = input[i];
+
+                for( j in singleDataset ){
+                    if( typeof(singleDataset[j]) === 'object') {
+
+                        var k;
+                        var mediumData = singleDataset[j];
+                        for(k in mediumData) {
+                            if(k === "directNone") {
+                                if(mediumData[k]){
+                                    tempArray[0] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[0] = 0.00;
+                                }
+                            }
+
+                            if(k === "email") {
+                                if(mediumData[k]){
+                                    tempArray[1] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[1] = 0.00;
+                                }
+                            }
+
+                            if(k === "googleOrganic") {
+                                if(mediumData[k]){
+                                    tempArray[2] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[2] = 0.00;
+                                }
+                            }
+
+                            if(k === "bingOrganic") {
+                                if(mediumData[k]){
+                                    tempArray[3] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[3] = 0.00;
+                                }
+                            }
+
+                            if(k === "yahooOrganic") {
+                                if(mediumData[k]){
+                                    tempArray[4] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[4] = 0.00;
+                                }
+                            }
+
+                            if(k === "facebook") {
+                                if(mediumData[k]){
+                                    tempArray[5] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[5] = 0.00;
+                                }
+                            }
+
+                            if(k === "socialTwitter") {
+                                if(mediumData[k]){
+                                    tempArray[6] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[6] = 0.00;
+                                }
+                            }
+
+                            if(k === "pinterestRef") {
+                                if(mediumData[k]){
+                                    tempArray[7] = Number(mediumData[k].toFixed(2));
+                                }
+                                else {
+                                    tempArray[7] = 0.00;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        tempArray[1] = 0.00;
+        tempArray[3] = 0.00;
+        tempArray[4] = 0.00;
+        tempArray[5] = 0.00;
+        tempArray[6] = 0.00;
+        tempArray[7] = 0.00;
+        console.log(tempArray);
+        //vm.fill(tempArray);
+        //vm.chartData.data.push(tempArray);
+        vm.chartData.data[1] = tempArray;
+
+    }
+
+    function _fill(array) {
+        var tmp = [];
+        for (var i = 0, len = array.length - 1; i < len; i++) {
+            if (array[i][i] == array[i+1][i] - 1) {
+                tmp.push(array[i]);
+            } else {
+                for (var j = array[i][i], l = array[i+1][i]; j < l; j++) {
+                    tmp.push(array[i]);
+                };
+            }
+        };
+        console.log(tmp);
+        return tmp;
+    };
 
     function _fbParseData(input) {
         var i;
@@ -832,7 +931,8 @@ myApp.controller('radarController', function($scope, $resource) {
         vm.avgPinterest(vm.pinterestData);
         vm.avgFacebook(vm.facebookData);
 
-        vm.chartData.data.push(vm.tempArray);
+        //vm.chartData.data.push( vm.tempArray);
+        vm.chartData.data[0] = vm.tempArray;
         console.log(vm.chartData.data);
         vm.isActive = true;
 
@@ -930,7 +1030,7 @@ myApp.controller('barController', function($scope, $resource) {
     //Chart JS
     vm.chartData = {};
     vm.chartData.data = [];
-    vm.chartData.series = ['Hawke eComm Avg'];
+    vm.chartData.series = ['Prospective Client', 'Hawke eComm Avg'];
     vm.chartData.labels = [
         "Direct traffic as % of ECR"
         , "New traffic as % of ECR"
@@ -949,6 +1049,7 @@ myApp.controller('barController', function($scope, $resource) {
     vm.takeAvgs = _takeAvgs;
     vm.avgDirect = _avgDirect;
     vm.avgNewUser = _avgNewUser;
+    vm.fbParseDataSolo = _fbParseDataSolo;
 
 
     function _clearForm (){
@@ -971,8 +1072,39 @@ myApp.controller('barController', function($scope, $resource) {
         var firebaseQuery = new fbQuery();
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
-            vm.fbParseData(result);
+            console.log(result.avg);
+            console.log(result.solo);
+            vm.fbParseData(result.avg);
+            vm.fbParseDataSolo(result.solo);
         });
+
+    }
+
+    function _fbParseDataSolo(input) {
+        var tempArray = [];
+        var i;
+        for (i in input) {
+
+            if (typeof( input[i] ) === 'object') {
+
+                var j;
+                var singleDataset = input[i];
+
+                for (j in singleDataset) {
+                    if (j === 'directRevPercent') {
+                        var output = Number( (singleDataset[j] * 100).toFixed(1) )
+                        tempArray[0] = output;
+                    }
+
+                    if (j === 'newUserRevPercent') {
+                        var output = Number( (singleDataset[j] * 100).toFixed(1) )
+                        tempArray[1] = output;
+                    }
+
+                }
+            }
+        }
+        vm.chartData.data[0] = tempArray;
 
     }
 
@@ -1005,7 +1137,7 @@ myApp.controller('barController', function($scope, $resource) {
         vm.avgDirect(vm.directData);
         vm.avgNewUser(vm.newUserData);
 
-        vm.chartData.data.push(vm.tempArray);
+        vm.chartData.data[1] = vm.tempArray;
         console.log(vm.chartData.data);
         vm.isActive = true;
 
