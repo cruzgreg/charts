@@ -3,11 +3,9 @@
  */
 
 var firebase = require('firebase');
-var myFirebaseRefRoot = new firebase('https://boiling-heat-2495.firebaseio.com/');
 var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
 var path = require('path');
 var serverController = require('./server/js/controllers/serverController');
 var singleCo = require('./server/js/controllers/singleCo.server.controller');
@@ -18,7 +16,7 @@ var allQueries = require('./server/js/controllers/allQueries.server.controller')
 var bellCurve = require('./server/js/controllers/bellCurve.server.controller');
 var radar = require('./server/js/controllers/radar.server.controller');
 var barChart = require('./server/js/controllers/barChart.server.controller');
-
+var firebaseQuery = require('./server/js/controllers/firebaseQuery.server.controller');
 
 //Create the application
 var app = express();
@@ -65,7 +63,7 @@ app.post('/api/firebase/radarChart', radar.submitQuery);
 
 app.post('/api/firebase/barChart', barChart.submitQuery);
 
-
+app.post('/api/firebase/firebaseQuery', firebaseQuery.submitQuery);
 
 
 

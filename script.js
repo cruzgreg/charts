@@ -24,6 +24,12 @@ myApp.config(function($routeProvider) {
         controller  : 'barController'
     })
 
+    // route for Scatter Plot
+    .when('/scatterPlot', {
+        templateUrl : 'pages/scatterPlot.html',
+        controller  : 'scatterController'
+    })
+
 });
 
 
@@ -1160,6 +1166,102 @@ myApp.controller('barController', function($scope, $resource) {
         var output = Number ((sum / array.length * 100).toFixed(1) );
         vm.tempArray[1] = output;
     }
+
+
+});
+
+myApp.controller('scatterController', function($scope, $resource) {
+    var vm = this;
+    vm.$scope = $scope;
+
+    vm.message = 'Plotting Average Order Value vs Conversion Rate';
+
+    var fbQuery = $resource('http://localhost:3000/api/firebase/firebaseQuery');
+
+    vm.isActive = false;
+    vm.query = {};
+    vm.query.startDate = '30daysAgo';
+    vm.query.endDate = '2015-10-31';
+
+    //Chart JS
+    vm.chartData = {};
+    vm.chartData.series = ['Hawke Universe'];
+    vm.chartData.labels = [];
+    vm.chartData.data = [];
+
+
+    //Register functions
+    vm.submitQuery = _submitQuery;
+    vm.clearForm = _clearForm;
+    vm.fbParseData = _fbParseData;
+    vm.countList = _countList;
+    vm.orderData = _orderData;
+
+    function _clearForm (){
+        vm.isActive = false;
+
+        //vm.query = {};
+        //
+        //vm.chartData.labels = [];
+        //vm.chartData.series = ['Users','Pageviews'];
+        //vm.chartData.data= [];
+        //
+        //vm.datesData = [];
+        //vm.datesData1 = [];
+        //vm.datesData2 = [];
+
+    }
+
+    function _submitQuery(){
+
+        var firebaseQuery = new fbQuery();
+        firebaseQuery.query = vm.query;
+        firebaseQuery.$save(function(result){
+            //vm.fbParseData(result);
+            console.log(result);
+            console.log(result.avg);
+        });
+    }
+
+    function _fbParseData(input) {
+        var tempArray = [];
+
+        var i;
+        for (i in input) {
+            if(typeof( input[i] ) ===  'object') {
+
+                var j;
+                var singleDataset = input[i];
+                for( j in singleDataset ) {
+                    if(j === 'avgOrderVsConversionRate') {
+                        tempArray.push( Number(singleDataset[j].toFixed(2) ));
+                    }
+                }
+            }
+
+        }
+        tempArray.sort(function(a,b){
+            return a > b ? 1 : a < b ? -1 : 0;
+        });
+        vm.orderData(tempArray);
+        vm.countList(tempArray);
+
+    }
+
+    function _orderData(array) {
+        vm.chartData.data.push(array);
+        console.log(array);
+
+    }
+
+    function _countList(array){
+        var counter = 0;
+        for(var i = 0; i < array.length; i++) {
+            vm.chartData.labels.push(counter += 1);
+        }
+        vm.isActive = true;
+    }
+
 
 
 });
