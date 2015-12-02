@@ -30,7 +30,7 @@ app.use('/js', express.static(__dirname + '/client/js'));
 app.use(cors());
 
 
-//define routes
+//Define routes
 app.get('/', function(req, res, next){
     res.sendFile(__dirname + '/client/pages/home.html');
 });
@@ -40,6 +40,7 @@ app.post('/query', function(req, res, next){
     //use the req inputs from above to call the
     res.end();
 });
+
 
 app.listen(3000, function(){
     console.log('ready on port 3000');

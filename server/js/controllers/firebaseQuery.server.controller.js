@@ -1,5 +1,6 @@
 var firebase = require('firebase');
 var Debug = require('console-debug');
+var q = require('q');
 
 //Firebase databases
 //greg@hurffhouse acct
@@ -27,20 +28,23 @@ module.exports.submitQuery = function(req, res){
 
 
     function getOneQueryForDateRange (startDate, endDate) {
+        var deferred = q.defer();
+
         var myFirebaseRef = myFirebaseRefRoot.child(startDate + '/' + endDate);
         var soloFirebaseRef = soloFirebaseRefRoot.child(startDate + '/' + endDate);
 
-        myFirebaseRef.on("value", function(snapshot) {
-            responseData.avg = snapshot.val();
-        });
-
         soloFirebaseRef.on("value", function(snapshot) {
             responseData.solo = snapshot.val();
+            console.log('printing solo');
         });
 
-        res.json(responseData);
-        //console.log("printing from my new controller")
-        //console.log(responseData.avg);
+        myFirebaseRef.on("value", function(snapshot) {
+            responseData.avg = snapshot.val();
+            console.log('printing avg');
+            deferred.resolve( res.json(responseData) );
+        });
+
+        return deferred.promise;
 
     };
 

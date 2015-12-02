@@ -672,7 +672,7 @@ myApp.controller('radarController', function($scope, $resource) {
 
     vm.message = 'Compare per Session Value by Source / Medium (denoted in $)';
 
-    var fbQuery = $resource('http://localhost:3000/api/firebase/radarChart');
+    var fbQuery = $resource('http://localhost:3000/api/firebase/firebaseQuery');
 
     vm.isActive = false;
     vm.query = {};
@@ -740,8 +740,6 @@ myApp.controller('radarController', function($scope, $resource) {
         var firebaseQuery = new fbQuery();
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
-            //vm.fbParseData(result);
-            //console.log(result);
             console.log(result.avg);
             console.log(result.solo);
             vm.fbParseData(result.avg);
@@ -755,7 +753,6 @@ myApp.controller('radarController', function($scope, $resource) {
         var i;
         var tempArray = [];
         for(i in input){
-
             if( typeof( input[i] ) ===  'object' ){
 
                 var j;
@@ -768,109 +765,59 @@ myApp.controller('radarController', function($scope, $resource) {
                         var mediumData = singleDataset[j];
                         for(k in mediumData) {
                             if(k === "directNone") {
-                                if(mediumData[k]){
-                                    tempArray[0] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[0] = 0.00;
-                                }
+                                tempArray[0] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "email") {
-                                if(mediumData[k]){
-                                    tempArray[1] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[1] = 0.00;
-                                }
+                                tempArray[1] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "googleOrganic") {
-                                if(mediumData[k]){
-                                    tempArray[2] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[2] = 0.00;
-                                }
+                                tempArray[2] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "bingOrganic") {
-                                if(mediumData[k]){
-                                    tempArray[3] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[3] = 0.00;
-                                }
+                                tempArray[3] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "yahooOrganic") {
-                                if(mediumData[k]){
-                                    tempArray[4] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[4] = 0.00;
-                                }
+                                tempArray[4] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "facebook") {
-                                if(mediumData[k]){
-                                    tempArray[5] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[5] = 0.00;
-                                }
+                                tempArray[5] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "socialTwitter") {
-                                if(mediumData[k]){
-                                    tempArray[6] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[6] = 0.00;
-                                }
+                                tempArray[6] = Number(mediumData[k].toFixed(2));
                             }
 
                             if(k === "pinterestRef") {
-                                if(mediumData[k]){
-                                    tempArray[7] = Number(mediumData[k].toFixed(2));
-                                }
-                                else {
-                                    tempArray[7] = 0.00;
-                                }
-
+                                tempArray[7] = Number(mediumData[k].toFixed(2));
                             }
                         }
                     }
                 }
             }
         }
-        tempArray[1] = 0.00;
-        tempArray[3] = 0.00;
-        tempArray[4] = 0.00;
-        tempArray[5] = 0.00;
-        tempArray[6] = 0.00;
-        tempArray[7] = 0.00;
-        console.log(tempArray);
-        //vm.fill(tempArray);
-        //vm.chartData.data.push(tempArray);
-        vm.chartData.data[1] = tempArray;
+        vm.fill(tempArray);
 
     }
 
-    function _fill(array) {
+
+    function _fill(array){
         var tmp = [];
-        for (var i = 0, len = array.length - 1; i < len; i++) {
-            if (array[i][i] == array[i+1][i] - 1) {
-                tmp.push(array[i]);
+        for(var i = 0; i < 8; i++) {
+            if(!array[i]){
+                tmp.push(0.00);
             } else {
-                for (var j = array[i][i], l = array[i+1][i]; j < l; j++) {
-                    tmp.push(array[i]);
-                };
+                tmp.push(array[i]);
             }
-        };
+        }
         console.log(tmp);
-        return tmp;
-    };
+        vm.chartData.data[1] = tmp;
+
+    }
 
     function _fbParseData(input) {
         var i;
@@ -1025,7 +972,7 @@ myApp.controller('barController', function($scope, $resource) {
 
     vm.message = 'Compare eCommerce Revenue Metrics';
 
-    var fbQuery = $resource('http://localhost:3000/api/firebase/barChart');
+    var fbQuery = $resource('http://localhost:3000/api/firebase/firebaseQuery');
 
     vm.isActive = false;
     vm.query = {};
@@ -1194,6 +1141,7 @@ myApp.controller('scatterController', function($scope, $resource) {
     vm.submitQuery = _submitQuery;
     vm.clearForm = _clearForm;
     vm.fbParseData = _fbParseData;
+    vm.fbParseDataSolo = _fbParseDataSolo;
     vm.countList = _countList;
     vm.orderData = _orderData;
 
@@ -1217,13 +1165,16 @@ myApp.controller('scatterController', function($scope, $resource) {
         var firebaseQuery = new fbQuery();
         firebaseQuery.query = vm.query;
         firebaseQuery.$save(function(result){
-            //vm.fbParseData(result);
-            console.log(result);
+
             console.log(result.avg);
+            console.log(result.solo);
+            vm.fbParseDataSolo(result.solo)
+            vm.fbParseData(result.avg);
+
         });
     }
 
-    function _fbParseData(input) {
+    function _fbParseDataSolo(input) {
         var tempArray = [];
 
         var i;
@@ -1233,19 +1184,44 @@ myApp.controller('scatterController', function($scope, $resource) {
                 var j;
                 var singleDataset = input[i];
                 for( j in singleDataset ) {
-                    if(j === 'avgOrderVsConversionRate') {
-                        tempArray.push( Number(singleDataset[j].toFixed(2) ));
+                    if(j === 'aov') {
+                        tempArray[0] = Number(singleDataset[j].toFixed(2) );
                     }
+                    if(j === 'conversionRate') {
+                        tempArray[1] = Number(singleDataset[j].toFixed(2) );
+                    }
+
                 }
+            }
+        }
+        console.log(tempArray);
+
+    }
+
+    function _fbParseData(input) {
+        var seriesArray = [];
+
+        var i;
+        for (i in input) {
+            if(typeof( input[i] ) ===  'object') {
+                var tempArray = [];
+
+                var j;
+                var singleDataset = input[i];
+                for( j in singleDataset ) {
+                    if(j === 'aov') {
+                        tempArray[0] = Number(singleDataset[j].toFixed(2) );
+                    }
+                    if(j === 'conversionRate') {
+                        tempArray[1] = Number(singleDataset[j].toFixed(2) );
+                    }
+
+                }
+                seriesArray.push(tempArray);
             }
 
         }
-        tempArray.sort(function(a,b){
-            return a > b ? 1 : a < b ? -1 : 0;
-        });
-        vm.orderData(tempArray);
-        vm.countList(tempArray);
-
+        console.log(seriesArray);
     }
 
     function _orderData(array) {
